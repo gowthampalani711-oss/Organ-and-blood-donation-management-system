@@ -1,0 +1,13 @@
+# Environment variables
+.env
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Local cache & temporary test files
+.pytest_cache/
+odms_test_sms_cache.json
+*.log
