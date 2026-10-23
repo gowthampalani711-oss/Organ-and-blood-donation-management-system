@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Sign In | LifeSaver</title>
+    <link rel="stylesheet" href="../static/css/style.css?v=2.0">
+    <link rel="stylesheet" href="/static/css/style.css?v=2.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f4fbff 0%, #eef7f5 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .auth-shell {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        .auth-card {
+            width: min(100%, 520px);
+            background: rgba(255,255,255,0.96);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+        }
+        .auth-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .brand-mark {
+            width: 52px;
+            height: 52px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--teal));
+            color: #fff;
+            border-radius: 16px;
+            font-size: 1.7rem;
+            font-weight: 800;
+        }
+        .auth-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .inline-link {
+            color: var(--teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .inline-link:hover { text-decoration: underline; }
+        .toast {
+            position: fixed;
+            right: 1.25rem;
+            bottom: 1.25rem;
+            min-width: 240px;
+            max-width: 380px;
+            background: rgba(15, 23, 42, 0.94);
+            color: white;
+            padding: 0.9rem 1.1rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.25s ease;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 0.9rem;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .otp-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.35rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+        .otp-timer {
+            font-weight: 600;
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-shell">
+        <div class="auth-card">
+            <div class="auth-top">
+                <button type="button" class="btn-back" onclick="window.location.href='/'">← Back</button>
+                <div class="brand-mark">♥</div>
+            </div>
+
+            <div class="form-header" style="display:block; border-bottom:none; padding:0; margin-bottom:1.5rem; text-align:center;">
+                <div style="font-size:2.5rem; margin-bottom:0.5rem;">🔐</div>
+                <h2 class="form-title" style="margin:0;">Admin Sign In</h2>
+                <p class="form-subtitle" style="margin-top:0.5rem;">Two-Factor Secure Medical Staff Access</p>
+            </div>
+
+            <form id="adminSignInForm">
+                <div class="form-group" style="margin-bottom:1rem;">
+                    <label class="form-label" for="admin_signin_email">Admin Email or Username <span class="req-star">*</span></label>
+                    <input type="text" id="admin_signin_email" name="email" class="form-control" placeholder="Enter email or username" autocomplete="username" spellcheck="false" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1rem;">
+                    <label class="form-label" for="admin_signin_password">Password <span class="req-star">*</span></label>
+                    <input type="password" id="admin_signin_password" name="password" class="form-control" placeholder="Enter password" autocomplete="current-password" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1.5rem;">
+                    <label class="form-label" for="admin_signin_otp">Email OTP Verification <span class="req-star">*</span></label>
+                    <div class="otp-input-group">
+                        <input type="text" id="admin_signin_otp" name="otp_code" class="form-control" placeholder="Enter 6-digit OTP" maxlength="6" autocomplete="one-time-code" disabled required>
+                        <button type="button" id="btnSendAdminSigninOtp" class="btn-otp">Send OTP</button>
+                    </div>
+                    <div class="otp-meta">
+                        <span id="adminSigninOtpHelper">Enter credentials and click "Send OTP" to receive email verification code.</span>
+                        <span id="adminSigninTimer" class="otp-timer" style="display:none;">⏱ 5:00</span>
+                    </div>
+                </div>
+
+                <button type="submit" id="adminSigninSubmit" class="btn btn-primary" style="width:100%; margin-bottom:1rem;" disabled>Verify OTP & Sign In</button>
+
+                <div class="auth-links">
+                    <a href="/admin/signup" class="inline-link">Don't have an account? Sign Up</a>
+                    <a href="/admin/forgot-password" class="inline-link">Forgot Password?</a>
+                </div>
+            </form>
+            <div style="text-align:center; margin-top:1.5rem; font-size:0.75rem; color:#94a3b8;">
+                © 2026 Organ & Blood Donation Management System. All rights reserved.
+            </div>
+        </div>
+    </div>
+
+    <div id="authToast" class="toast" aria-live="polite"></div>
+
+    <script>
+        const form = document.getElementById('adminSignInForm');
+        const emailInput = document.getElementById('admin_signin_email');
+        const passwordInput = document.getElementById('admin_signin_password');
+        const otpInput = document.getElementById('admin_signin_otp');
+        const sendOtpBtn = document.getElementById('btnSendAdminSigninOtp');
+        const submitBtn = document.getElementById('adminSigninSubmit');
+        const timerSpan = document.getElementById('adminSigninTimer');
+        const helperSpan = document.getElementById('adminSigninOtpHelper');
+        const toast = document.getElementById('authToast');
+
+        let countdownInterval = null;
+        let cooldownInterval = null;
+
+        function showToast(message, type = 'info') {
+            toast.textContent = message;
+            toast.classList.add('show');
+            toast.style.background = type === 'error' ? 'rgba(185, 28, 28, 0.94)' : type === 'success' ? 'rgba(22, 101, 52, 0.94)' : 'rgba(15, 23, 42, 0.94)';
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        function startOtpTimer(durationSeconds = 300) {
+            clearInterval(countdownInterval);
+            let remaining = durationSeconds;
+            timerSpan.style.display = 'inline';
+            
+            function updateDisplay() {
+                const mins = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                timerSpan.textContent = `⏱ ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+            updateDisplay();
+
+            countdownInterval = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(countdownInterval);
+                    timerSpan.textContent = '⏱ Expired';
+                    showToast('OTP has expired. Please request a new OTP.', 'error');
+                } else {
+                    updateDisplay();
+                }
+            }, 1000);
+        }
+
+        function startCooldown(cooldownSeconds = 60) {
+            clearInterval(cooldownInterval);
+            sendOtpBtn.disabled = true;
+            let remaining = cooldownSeconds;
+            sendOtpBtn.textContent = `Resend (${remaining}s)`;
+
+            cooldownInterval = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(cooldownInterval);
+                    sendOtpBtn.disabled = false;
+                    sendOtpBtn.textContent = 'Resend OTP';
+                } else {
+                    sendOtpBtn.textContent = `Resend (${remaining}s)`;
+                }
+            }, 1000);
+        }
+
+        function setOtpState(enabled) {
+            otpInput.disabled = !enabled;
+            submitBtn.disabled = !enabled;
+            if (enabled) {
+                otpInput.focus();
+            } else {
+                otpInput.value = '';
+            }
+        }
+
+        sendOtpBtn.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!email || !password) {
+                showToast('Please enter your email and password first.', 'error');
+                if (!email) emailInput.focus();
+                else passwordInput.focus();
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('password', password);
+
+            sendOtpBtn.disabled = true;
+            sendOtpBtn.textContent = 'Sending...';
+
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                let data;
+                try {
+                    data = await res.json();
+                } catch (e) {
+                    data = { success: false, message: 'Server error (' + res.status + '). Please try again.' };
+                }
+                if (data.success) {
+                    const maskedText = data.masked_email ? ` (to ${data.masked_email})` : '';
+                    showToast(data.message || `OTP has been sent to your registered email address${maskedText}.`, 'success');
+                    helperSpan.textContent = data.masked_email ? `OTP sent to email ${data.masked_email}` : 'OTP sent to registered email address.';
+                    setOtpState(true);
+                    startOtpTimer(data.expires_in_seconds || 300);
+                    startCooldown(data.cooldown_seconds || 60);
+                } else {
+                    setOtpState(false);
+                    sendOtpBtn.disabled = false;
+                    sendOtpBtn.textContent = 'Send OTP';
+                    showToast(data.message || 'Unable to send OTP. Please check credentials.', 'error');
+                }
+            } catch (error) {
+                setOtpState(false);
+                sendOtpBtn.disabled = false;
+                sendOtpBtn.textContent = 'Send OTP';
+                showToast('Network error. Please check connection and try again.', 'error');
+            }
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            const otp = otpInput.value.trim();
+
+            if (!email || !password) {
+                showToast('Please enter both email and password.', 'error');
+                return;
+            }
+
+            if (!otp || otp.length !== 6) {
+                showToast('Please enter the 6-digit OTP sent to your email.', 'error');
+                otpInput.focus();
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Signing in...';
+
+            const formData = new FormData(form);
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Admin authenticated successfully! Redirecting...', 'success');
+                    clearInterval(countdownInterval);
+                    clearInterval(cooldownInterval);
+                    setTimeout(() => {
+                        window.location.href = '/admin';
+                    }, 800);
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Verify OTP & Sign In';
+                    showToast(data.message || 'Sign-in failed. Please verify the OTP.', 'error');
+                }
+            } catch (error) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Verify OTP & Sign In';
+                showToast('Unable to sign in right now.', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Donor Verification - LifeSaver Network</title>
+    <link rel="stylesheet" href="../static/css/style.css?v=2.0">
+    <link rel="stylesheet" href="/static/css/style.css?v=2.0">
+</head>
+<body style="background: #F1FAEE; min-height: 100vh; display: flex; flex-direction: column;">
+
+    <!-- Top Simplified Nav -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">
+                <div class="brand-icon">♥</div>
+                <div>
+                    <span>LifeSaver Network</span>
+                    <small style="display:block; font-size:0.7rem; color:var(--teal); font-weight:600;">OFFICIAL DONOR VERIFICATION</small>
+                </div>
+            </a>
+            <div class="nav-actions">
+                <div class="lang-selector-wrap" title="Select Language">
+                    <span class="lang-icon" aria-hidden="true">🌐</span>
+                    <select id="languageSelect" class="lang-select-dropdown" onchange="setLanguage(this.value)" aria-label="Select Language">
+                        <option value="en">English</option>
+                        <option value="ta">தமிழ்</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-wrapper" style="display: flex; align-items: center; justify-content: center; padding: 2rem 1rem;">
+        <div class="form-card" style="max-width: 580px; width: 100%; text-align: center; border-top: 6px solid var(--mint);">
+            {% if donor %}
+                <div style="font-size: 3.5rem; margin-bottom: 0.5rem; color: var(--mint);">🛡️</div>
+                <h2 style="color: var(--primary); font-size: 1.6rem; margin-bottom: 0.25rem;" data-i18n="verify_page_title">
+                    Official Donor Verification Portal
+                </h2>
+                <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.5rem;" data-i18n="verify_subtitle">
+                    Government & Medical Life Saver Verification Registry
+                </p>
+
+                <!-- Verification Status Pill -->
+                <div style="background: var(--mint-light); border: 1.5px solid var(--mint); color: var(--mint); padding: 0.65rem 1.5rem; border-radius: 9999px; font-weight: 800; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; margin-bottom: 2rem;" data-i18n="verify_status_valid">
+                    ✓ VERIFIED ACTIVE DONOR
+                </div>
+
+                <!-- Safe Details Table -->
+                <div style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; text-align: left; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm);">
+                    <div style="display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid #f1f5f9;">
+                        <span style="color: var(--text-muted);" data-i18n="verify_id_label">Donor ID</span>
+                        <strong style="color: var(--primary); font-family: monospace; font-size: 1.05rem;">{{ donor.donor_id }}</strong>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid #f1f5f9;">
+                        <span style="color: var(--text-muted);" data-i18n="verify_name_label">Donor Name</span>
+                        <strong style="color: var(--text-dark);">{{ donor.full_name }}</strong>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid #f1f5f9;">
+                        <span style="color: var(--text-muted);" data-i18n="verify_bg_label">Blood Group</span>
+                        <span class="bg-pill">{{ donor.blood_group }}</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid #f1f5f9;">
+                        <span style="color: var(--text-muted);" data-i18n="verify_organs_label">Pledged Organs</span>
+                        <strong style="color: var(--accent-red);">{{ donor.organ_type }}</strong>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid #f1f5f9;">
+                        <span style="color: var(--text-muted);" data-i18n="verify_city_label">Registered District</span>
+                        <strong>{{ donor.city }}, Tamil Nadu</strong>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; padding: 0.6rem 0;">
+                        <span style="color: var(--text-muted);" data-i18n="verify_date_label">Registration Date</span>
+                        <span style="color: var(--text-dark);">{{ donor.created_at }}</span>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.8rem; color: #64748B; line-height: 1.4; margin-bottom: 1.5rem;" data-i18n="verify_safe_note">
+                    Confidential medical records and personal phone numbers are protected under medical privacy protocols.
+                </p>
+
+                <a href="/" class="btn btn-primary" style="display: inline-block;">
+                    Return to LifeSaver Portal
+                </a>
+            {% else %}
+                <div style="font-size: 3.5rem; margin-bottom: 0.5rem; color: var(--accent-red);">⚠️</div>
+                <h2 style="color: var(--primary);">Donor Record Not Found</h2>
+                <p style="color: var(--text-muted); margin: 1rem 0;">The requested Donor ID does not exist in the verified registry or has been revoked.</p>
+                <a href="/" class="btn btn-dark">Return to Home</a>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content" style="justify-content: center; text-align: center; flex-direction: column; gap: 0.5rem;">
+            <p style="font-size: 0.85rem; color: #A8DADC; margin:0;">24x7 Government Life Saver Verification Helpline: 108 / 104</p>
+            <p style="font-size: 0.75rem; color: #fff; margin:0;">© 2026 Organ & Blood Donation Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../static/js/i18n.js" onerror="this.onerror=null;this.src='/static/js/i18n.js';"></script>
+</body>
+</html>

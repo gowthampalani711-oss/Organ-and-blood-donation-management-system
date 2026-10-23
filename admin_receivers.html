@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receiver Management | Medical Admin Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-k5m8VqS9V+VQy1B5y1z1eK2z1QFz0J6k3rJ9F1h3G7q9VQjb9f5Hh3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-dark: #020617;
+            --brand-blue: #0284c7;
+            --brand-blue-hover: #0369a1;
+            --brand-teal: #0d9488;
+            --brand-red: #e11d48;
+            
+            --emerald: #059669;
+            --emerald-bg: #ecfdf5;
+            --emerald-border: #a7f3d0;
+            --emerald-text: #065f46;
+            
+            --amber: #d97706;
+            --amber-bg: #fffbeb;
+            --amber-border: #fde68a;
+            --amber-text: #92400e;
+            
+            --rose: #e11d48;
+            --rose-bg: #fff1f2;
+            --rose-border: #fecdd3;
+            --rose-text: #9f1239;
+            
+            --blue-badge-bg: #eff6ff;
+            --blue-badge-border: #bfdbfe;
+            --blue-badge-text: #1e40af;
+            
+            --purple-badge-bg: #faf5ff;
+            --purple-badge-border: #e9d5ff;
+            --purple-badge-text: #6b21a8;
+            
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border-subtle: #e2e8f0;
+            --border-medium: #cbd5e1;
+            
+            --text-main: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-full: 9999px;
+            
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* 1. TOP HEADER */
+        .admin-header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-subtle);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .header-inner {
+            max-width: 1720px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+        }
+
+        .brand-icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+        }
+
+        .brand-text-group h1 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .brand-text-group p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #f1f5f9;
+            padding: 0.35rem 0.85rem 0.35rem 0.45rem;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .admin-avatar-small {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--brand-blue);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .admin-profile-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .admin-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+
+        .admin-role {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 0.95rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--rose-text);
+            background: var(--rose-bg);
+            border: 1px solid var(--rose-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #ffe4e6;
+            color: #881337;
+            transform: translateY(-1px);
+        }
+
+        /* PAGE SHELL */
+        .page-container {
+            max-width: 1720px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            flex: 1;
+        }
+
+        /* 2. SUBBAR / BACK BUTTON */
+        .subnav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .btn-back-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: #ffffff;
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            box-shadow: var(--shadow-xs);
+            transition: var(--transition);
+        }
+
+        .btn-back-dashboard:hover {
+            color: var(--brand-blue);
+            border-color: var(--brand-blue);
+            background: #f0f9ff;
+            transform: translateX(-2px);
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.825rem;
+            color: var(--text-muted);
+        }
+
+        .breadcrumbs a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumbs a:hover { color: var(--brand-blue); }
+        .breadcrumbs span { color: var(--text-main); font-weight: 600; }
+
+        /* 3. TITLE & STATS SECTION */
+        .title-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1.25rem;
+            align-items: center;
+        }
+
+        .title-block h2 {
+            font-size: 1.625rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .title-block p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        .stats-cards-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card-compact {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 0.65rem 1.15rem;
+            box-shadow: var(--shadow-xs);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 135px;
+        }
+
+        .stat-card-compact.stat-total { border-left: 4px solid var(--brand-blue); }
+        .stat-card-compact.stat-pending { border-left: 4px solid var(--amber); }
+        .stat-card-compact.stat-approved { border-left: 4px solid var(--emerald); }
+        .stat-card-compact.stat-organs { border-left: 4px solid var(--brand-teal); }
+        .stat-card-compact.stat-emergency { border-left: 4px solid var(--rose); }
+
+        .stat-icon-wrap {
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+        }
+
+        .stat-total .stat-icon-wrap { background: #e0f2fe; color: var(--brand-blue); }
+        .stat-pending .stat-icon-wrap { background: var(--amber-bg); color: var(--amber); }
+        .stat-approved .stat-icon-wrap { background: var(--emerald-bg); color: var(--emerald); }
+        .stat-organs .stat-icon-wrap { background: #ccfbf1; color: var(--brand-teal); }
+        .stat-emergency .stat-icon-wrap { background: var(--rose-bg); color: var(--rose); }
+
+        .stat-val-group .stat-num {
+            font-size: 1.25rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+
+        .stat-val-group .stat-lbl {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* 4. SEARCH & FILTER TOOLBAR */
+        .filter-panel {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.15rem 1.25rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1.1fr auto;
+            gap: 0.75rem;
+            align-items: end;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .filter-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .input-with-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 0.85rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            pointer-events: none;
+        }
+
+        .input-with-icon input {
+            padding-left: 2.25rem;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            height: 38px;
+            padding: 0.45rem 0.75rem;
+            font-size: 0.825rem;
+            font-family: inherit;
+            color: var(--text-main);
+            background-color: #f8fafc;
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-control-custom:focus {
+            background-color: #ffffff;
+            border-color: var(--brand-blue);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+        }
+
+        .filter-btns-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-filter-search {
+            height: 38px;
+            padding: 0 1.15rem;
+            background: var(--brand-blue);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.825rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-filter-search:hover {
+            background: var(--brand-blue-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-filter-reset {
+            height: 38px;
+            padding: 0 0.95rem;
+            background: #f1f5f9;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md);
+            font-size: 0.825rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-filter-reset:hover {
+            background: #e2e8f0;
+            color: var(--primary);
+        }
+
+        /* 5. TABLE SECTION */
+        .table-card {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-toolbar-top {
+            padding: 0.85rem 1.25rem;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .table-info-text {
+            font-size: 0.825rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .table-info-text strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.donor-admin-table {
+            width: 100%;
+            min-width: 1550px;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #ffffff;
+        }
+
+        table.donor-admin-table thead {
+            background-color: #f8fafc;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        table.donor-admin-table th {
+            padding: 14px 16px;
+            vertical-align: middle;
+            text-align: left;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border-medium);
+            white-space: nowrap;
+        }
+
+        table.donor-admin-table td {
+            padding: 14px 16px;
+            vertical-align: middle;
+            text-align: left;
+            font-size: 0.825rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-subtle);
+            background-color: #ffffff;
+            transition: background-color 0.15s ease;
+        }
+
+        table.donor-admin-table tbody tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* Column Specific Formatting */
+        .col-rec-id {
+            min-width: 140px;
+            font-family: ui-monospace, SFMono-Regular, monospace;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--brand-blue);
+            word-break: break-word;
+        }
+
+        .donor-avatar-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e2e8f0;
+            box-shadow: var(--shadow-xs);
+            background-color: #f1f5f9;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .col-name {
+            min-width: 160px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .blood-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: var(--radius-full);
+            font-weight: 800;
+            font-size: 0.8rem;
+            background: #fff1f2;
+            color: #be123c;
+            border: 1px solid #fecdd3;
+        }
+
+        .organ-tag {
+            display: inline-block;
+            padding: 0.2rem 0.55rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            white-space: nowrap;
+        }
+
+        .col-address {
+            min-width: 180px;
+            max-width: 220px;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            line-height: 1.35;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .col-reports {
+            min-width: 140px;
+            white-space: nowrap;
+        }
+
+        .btn-report-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem 0.65rem;
+            background: #faf5ff;
+            color: #6b21a8;
+            border: 1px solid #e9d5ff;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-report-pill:hover {
+            background: #7e22ce;
+            color: #ffffff;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+        .status-approved, .status-matched {
+            background: var(--emerald-bg);
+            color: var(--emerald-text);
+            border: 1px solid var(--emerald-border);
+        }
+        .status-approved .status-dot, .status-matched .status-dot { background: var(--emerald); }
+
+        .status-pending {
+            background: var(--amber-bg);
+            color: var(--amber-text);
+            border: 1px solid var(--amber-border);
+        }
+        .status-pending .status-dot { background: var(--amber); }
+
+        .status-rejected, .status-closed {
+            background: var(--rose-bg);
+            color: var(--rose-text);
+            border: 1px solid var(--rose-border);
+        }
+        .status-rejected .status-dot, .status-closed .status-dot { background: var(--rose); }
+
+        /* ACTIONS */
+        .col-action {
+            min-width: 260px;
+            white-space: nowrap;
+        }
+
+        .action-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-act {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+
+        .btn-act-view { background: #f0f9ff; color: #0369a1; border-color: #bae6fd; }
+        .btn-act-view:hover { background: #0284c7; color: #ffffff; }
+
+        .btn-act-find { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+        .btn-act-find:hover { background: #059669; color: #ffffff; }
+
+        .btn-act-approve { background: var(--emerald-bg); color: var(--emerald-text); border-color: var(--emerald-border); }
+        .btn-act-approve:hover { background: var(--emerald); color: #ffffff; }
+
+        .btn-act-reject { background: var(--amber-bg); color: var(--amber-text); border-color: var(--amber-border); }
+        .btn-act-reject:hover { background: var(--amber); color: #ffffff; }
+
+        .btn-act-delete { background: var(--rose-bg); color: var(--rose-text); border-color: var(--rose-border); }
+        .btn-act-delete:hover { background: var(--rose); color: #ffffff; }
+
+        /* PAGINATION */
+        .table-pagination-footer {
+            padding: 0.95rem 1.25rem;
+            background: #ffffff;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .pagination-count { font-size: 0.825rem; color: var(--text-muted); }
+        .pagination-controls { display: flex; align-items: center; gap: 0.35rem; }
+
+        .btn-page {
+            min-width: 32px;
+            height: 32px;
+            padding: 0 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-main);
+            background: #ffffff;
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-page:hover:not(:disabled) { background: #f1f5f9; border-color: var(--text-muted); }
+        .btn-page.active { background: var(--brand-blue); color: #ffffff; border-color: var(--brand-blue); }
+        .btn-page:disabled { opacity: 0.45; cursor: not-allowed; }
+
+        /* EMPTY STATE */
+        .empty-state-wrap { padding: 3.5rem 1.5rem; text-align: center; color: var(--text-muted); }
+        .empty-state-icon { font-size: 2.75rem; color: var(--border-medium); margin-bottom: 0.75rem; }
+        .empty-state-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.25rem; }
+
+        /* MODAL */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem; z-index: 1000;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .modal-backdrop.active { opacity: 1; visibility: visible; }
+
+        .modal-dialog-large {
+            width: 100%; max-width: 820px; max-height: 90vh;
+            background: #ffffff; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl); display: flex; flex-direction: column;
+            overflow: hidden; transform: translateY(20px) scale(0.98);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-backdrop.active .modal-dialog-large { transform: translateY(0) scale(1); }
+
+        .modal-header-clean {
+            padding: 1.25rem 1.5rem; background: #ffffff;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        }
+
+        .btn-modal-close {
+            width: 34px; height: 34px; border-radius: var(--radius-full);
+            background: #f1f5f9; border: 1px solid var(--border-subtle);
+            color: var(--text-secondary); font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: var(--transition);
+        }
+        .btn-modal-close:hover { background: #e2e8f0; }
+
+        .modal-body-scroll { padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .modal-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+        .detail-card {
+            background: #f8fafc; border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md); padding: 1.15rem;
+            display: flex; flex-direction: column; gap: 0.85rem;
+        }
+
+        .detail-card-title {
+            font-size: 0.8125rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            color: var(--brand-blue); display: flex; align-items: center; gap: 0.45rem;
+            padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .info-kv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .info-kv-item { display: flex; flex-direction: column; }
+        .info-kv-item.full-width { grid-column: 1 / -1; }
+        .info-kv-label { font-size: 0.72rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .info-kv-val { font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-top: 0.15rem; }
+
+        .reports-list-wrapper {
+            display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.35rem;
+        }
+
+        .report-item-pill {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #ffffff; border: 1px solid var(--border-subtle);
+            padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);
+        }
+
+        .modal-footer-clean {
+            padding: 1rem 1.5rem; background: #f8fafc;
+            border-top: 1px solid var(--border-subtle);
+            display: flex; align-items: center; justify-content: flex-end; gap: 0.75rem;
+        }
+
+        /* CONFIRMATION */
+        .confirm-dialog-wrap {
+            width: 100%; max-width: 440px; background: #ffffff;
+            border-radius: var(--radius-lg); box-shadow: var(--shadow-xl);
+            padding: 1.75rem; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+            transform: scale(0.95); transition: transform 0.2s ease;
+        }
+
+        .modal-backdrop.active .confirm-dialog-wrap { transform: scale(1); }
+
+        .confirm-icon-circle {
+            width: 56px; height: 56px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 1rem;
+        }
+
+        .confirm-icon-approve { background: var(--emerald-bg); color: var(--emerald); }
+        .confirm-icon-reject { background: var(--amber-bg); color: var(--amber); }
+        .confirm-icon-delete { background: var(--rose-bg); color: var(--rose); }
+
+        .confirm-title { font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; }
+        .confirm-message { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.5rem; }
+
+        .confirm-actions { display: flex; gap: 0.75rem; width: 100%; }
+
+        .btn-dialog-cancel {
+            flex: 1; padding: 0.65rem 1rem; background: #f1f5f9;
+            color: var(--text-main); border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer; transition: var(--transition);
+        }
+        .btn-dialog-cancel:hover { background: #e2e8f0; }
+
+        .btn-dialog-confirm {
+            flex: 1; padding: 0.65rem 1rem; color: #ffffff;
+            border: none; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer; transition: var(--transition);
+        }
+        .btn-dialog-confirm.btn-confirm-approve { background: var(--emerald); }
+        .btn-dialog-confirm.btn-confirm-approve:hover { background: #047857; }
+        .btn-dialog-confirm.btn-confirm-reject { background: var(--amber); }
+        .btn-dialog-confirm.btn-confirm-reject:hover { background: #b45309; }
+        .btn-dialog-confirm.btn-confirm-delete { background: var(--rose); }
+        .btn-dialog-confirm.btn-confirm-delete:hover { background: #be123c; }
+
+        /* TOAST */
+        .toast-notification {
+            position: fixed; bottom: 1.5rem; right: 1.5rem;
+            background: #0f172a; color: #ffffff; padding: 0.85rem 1.25rem;
+            border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
+            display: flex; align-items: center; gap: 0.75rem;
+            font-size: 0.85rem; font-weight: 500; z-index: 9999;
+            opacity: 0; transform: translateY(12px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .toast-notification.show { opacity: 1; transform: translateY(0); }
+        .toast-notification.toast-success { background: #064e3b; border: 1px solid #059669; }
+        .toast-notification.toast-error { background: #881337; border: 1px solid #e11d48; }
+        .toast-notification.toast-info { background: #0c4a6e; border: 1px solid #0284c7; }
+
+        @media (max-width: 1200px) {
+            .filter-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+            .filter-btns-group { grid-column: 1 / -1; justify-content: flex-end; }
+            .title-stats-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .page-container { padding: 1rem; }
+            .filter-grid { grid-template-columns: 1fr 1fr; }
+            .modal-cards-grid { grid-template-columns: 1fr; }
+            .stats-cards-wrapper { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 540px) {
+            .filter-grid { grid-template-columns: 1fr; }
+            .stats-cards-wrapper { grid-template-columns: 1fr; }
+            .header-inner { flex-direction: column; align-items: flex-start; }
+            .header-right { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. TOP HEADER -->
+    <header class="admin-header">
+        <div class="header-inner">
+            <a href="/admin" class="header-brand">
+                <div class="brand-icon-box">
+                    <i class="fa-solid fa-hospital-user"></i>
+                </div>
+                <div class="brand-text-group">
+                    <h1>Organ & Blood Donation Management System</h1>
+                    <p>Official Healthcare Administration Portal</p>
+                </div>
+            </a>
+            
+            <div class="header-right">
+                <div class="admin-profile-pill">
+                    <div class="admin-avatar-small">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div class="admin-profile-info">
+                        <span class="admin-name" id="adminHeaderName">System Admin</span>
+                        <span class="admin-role">Super Administrator</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-logout" onclick="adminLogout()">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE MAIN CONTENT -->
+    <main class="page-container">
+        
+        <!-- 2. BACK BUTTON & BREADCRUMBS -->
+        <div class="subnav-bar">
+            <a href="/admin" class="btn-back-dashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Admin Dashboard</span>
+            </a>
+            <div class="breadcrumbs">
+                <a href="/admin"><i class="fa-solid fa-house"></i> Admin</a>
+                <i class="fa-solid fa-chevron-right" style="font-size:0.65rem;"></i>
+                <span>Receiver Management</span>
+            </div>
+        </div>
+
+        <!-- 3. PAGE TITLE & STATS SECTION -->
+        <div class="title-stats-grid">
+            <div class="title-block">
+                <h2>
+                    <i class="fa-solid fa-bed-pulse" style="color:var(--brand-teal);"></i>
+                    Receiver Management
+                </h2>
+                <p>Manage organ and blood receiver records and medical requirements</p>
+            </div>
+
+            <div class="stats-cards-wrapper">
+                <div class="stat-card-compact stat-total">
+                    <div class="stat-icon-wrap"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-val-group">
+                        <div class="stat-num" id="statTotalReceivers">0</div>
+                        <div class="stat-lbl">Total Receivers</div>
+                    </div>
+                </div>
+
+                <div class="stat-card-compact stat-pending">
+                    <div class="stat-icon-wrap"><i class="fa-solid fa-clock"></i></div>
+                    <div class="stat-val-group">
+                        <div class="stat-num" id="statPendingReceivers">0</div>
+                        <div class="stat-lbl">Pending</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card-compact stat-approved">
+                    <div class="stat-icon-wrap"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-val-group">
+                        <div class="stat-num" id="statApprovedReceivers">0</div>
+                        <div class="stat-lbl">Approved</div>
+                    </div>
+                </div>
+
+                <div class="stat-card-compact stat-organs">
+                    <div class="stat-icon-wrap"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <div class="stat-val-group">
+                        <div class="stat-num" id="statOrganReceivers">0</div>
+                        <div class="stat-lbl">Organ Needed</div>
+                    </div>
+                </div>
+
+                <div class="stat-card-compact stat-emergency">
+                    <div class="stat-icon-wrap"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="stat-val-group">
+                        <div class="stat-num" id="statCriticalReceivers">0</div>
+                        <div class="stat-lbl">Critical Urgency</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. SEARCH AND FILTER SECTION -->
+        <section class="filter-panel">
+            <div class="filter-grid">
+                <!-- Search Query -->
+                <div class="filter-item">
+                    <label class="filter-label" for="filterSearchQuery">Search</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="filterSearchQuery" class="form-control-custom" placeholder="Search by Name, ID, Phone, Email...">
+                    </div>
+                </div>
+
+                <!-- Blood Group Filter -->
+                <div class="filter-item">
+                    <label class="filter-label" for="filterBloodGroup">Blood Group</label>
+                    <select id="filterBloodGroup" class="form-control-custom">
+                        <option value="">All Blood Groups</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <!-- Needed Organ Filter -->
+                <div class="filter-item">
+                    <label class="filter-label" for="filterNeededOrgan">Needed Organ</label>
+                    <select id="filterNeededOrgan" class="form-control-custom">
+                        <option value="">All Organs</option>
+                        <option value="Kidney">Kidney</option>
+                        <option value="Liver">Liver</option>
+                        <option value="Heart">Heart</option>
+                        <option value="Lung">Lung</option>
+                        <option value="Pancreas">Pancreas</option>
+                        <option value="Eye">Eye / Cornea</option>
+                    </select>
+                </div>
+
+                <!-- City Filter -->
+                <div class="filter-item">
+                    <label class="filter-label" for="filterCity">City</label>
+                    <select id="filterCity" class="form-control-custom">
+                        <option value="">All Cities</option>
+                        <option value="Salem">Salem</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Coimbatore">Coimbatore</option>
+                        <option value="Madurai">Madurai</option>
+                        <option value="Trichy">Trichy</option>
+                        <option value="Erode">Erode</option>
+                        <option value="Tirunelveli">Tirunelveli</option>
+                        <option value="Vellore">Vellore</option>
+                    </select>
+                </div>
+
+                <!-- Status Filter -->
+                <div class="filter-item">
+                    <label class="filter-label" for="filterStatus">Status</label>
+                    <select id="filterStatus" class="form-control-custom">
+                        <option value="">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Matched">Matched</option>
+                        <option value="Closed">Closed</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+
+                <!-- Registration Date -->
+                <div class="filter-item">
+                    <label class="filter-label" for="filterDate">Registration Date</label>
+                    <input type="date" id="filterDate" class="form-control-custom">
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="filter-btns-group">
+                    <button type="button" class="btn-filter-search" onclick="applyFilters()">
+                        <i class="fa-solid fa-filter"></i> Filter
+                    </button>
+                    <button type="button" class="btn-filter-reset" onclick="resetFilters()">
+                        <i class="fa-solid fa-rotate-left"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. RECEIVERS TABLE -->
+        <section class="table-card">
+            <div class="table-toolbar-top">
+                <div class="table-info-text">
+                    Showing <strong id="visibleCount">0</strong> of <strong id="totalCount">0</strong> receiver requirements
+                </div>
+                <div class="table-actions-quick">
+                    <div class="page-size-selector">
+                        <span>Show:</span>
+                        <select id="pageSizeSelect" onchange="changePageSize(this.value)">
+                            <option value="10">10 rows</option>
+                            <option value="25" selected>25 rows</option>
+                            <option value="50">50 rows</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Horizontally Scrollable Table Container -->
+            <div class="table-container">
+                <table class="donor-admin-table" id="receiversTable">
+                    <thead>
+                        <tr>
+                            <th class="col-rec-id">Receiver ID</th>
+                            <th>Photo</th>
+                            <th class="col-name">Full Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Phone</th>
+                            <th>Blood Group</th>
+                            <th>Needed Organ</th>
+                            <th class="col-address">Address</th>
+                            <th>City</th>
+                            <th class="col-reports">Medical Reports</th>
+                            <th>Registration Date</th>
+                            <th>Status</th>
+                            <th class="col-action">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="receiversTableBody">
+                        <tr>
+                            <td colspan="14" class="empty-state-wrap">
+                                <i class="fa-solid fa-circle-notch fa-spin empty-state-icon"></i>
+                                <div class="empty-state-title">Loading receiver records...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 13. PAGINATION FOOTER -->
+            <div class="table-pagination-footer">
+                <div class="pagination-count" id="paginationRangeText">
+                    Showing 0–0 of 0 receivers
+                </div>
+                <div class="pagination-controls" id="paginationControls">
+                    <!-- Dynamic pagination -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 10. VIEW RECEIVER DETAILS MODAL -->
+    <div class="modal-backdrop" id="receiverDetailModal" onclick="handleBackdropClick(event, 'receiverDetailModal')">
+        <div class="modal-dialog-large" onclick="event.stopPropagation()">
+            <div class="modal-header-clean">
+                <div style="display:flex; align-items:center; gap:0.75rem;">
+                    <div class="brand-icon-box" style="width:38px; height:38px; font-size:1.1rem;">
+                        <i class="fa-solid fa-bed-pulse"></i>
+                    </div>
+                    <div>
+                        <h3 id="modalReceiverName">Receiver Case File</h3>
+                        <p id="modalReceiverId" style="font-size:0.8rem; color:var(--text-muted); font-family:monospace;">ODMS-REC-2026-XXXX</p>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:0.6rem;">
+                    <div id="modalStatusBadge"></div>
+                    <button type="button" class="btn-modal-close" onclick="closeModal('receiverDetailModal')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-body-scroll" id="receiverModalBody">
+                <!-- Injected via JS -->
+            </div>
+
+            <div class="modal-footer-clean">
+                <div id="modalFooterActions" style="display:flex; gap:0.5rem;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFIRMATION MODAL -->
+    <div class="modal-backdrop" id="confirmActionModal" onclick="handleBackdropClick(event, 'confirmActionModal')">
+        <div class="confirm-dialog-wrap" onclick="event.stopPropagation()">
+            <div class="confirm-icon-circle" id="confirmDialogIcon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="confirm-title" id="confirmDialogTitle">Confirm Action</h3>
+            <p class="confirm-message" id="confirmDialogMessage">Are you sure?</p>
+            <div class="confirm-actions">
+                <button type="button" class="btn-dialog-cancel" onclick="closeModal('confirmActionModal')">Cancel</button>
+                <button type="button" class="btn-dialog-confirm" id="btnConfirmActionSubmit">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast-notification" id="toastAlert">
+        <i class="fa-solid fa-circle-info" id="toastIcon"></i>
+        <span id="toastMessage">Notification message</span>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        let allReceivers = [];
+        let filteredReceivers = [];
+        let currentPage = 1;
+        let pageSize = 25;
+        let pendingAction = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadReceivers();
+            setupFilterListeners();
+        });
+
+        function setupFilterListeners() {
+            const searchInput = document.getElementById('filterSearchQuery');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') applyFilters();
+                });
+            }
+            ['filterBloodGroup', 'filterNeededOrgan', 'filterCity', 'filterStatus', 'filterDate'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', applyFilters);
+            });
+        }
+
+        async function loadReceivers() {
+            try {
+                const res = await fetch('/api/admin/receivers');
+                const data = await res.json();
+                
+                if (!data.success) {
+                    if (res.status === 401) {
+                        window.location.href = '/admin/signin';
+                        return;
+                    }
+                    showEmptyState(data.message || 'Unable to load receiver records.');
+                    return;
+                }
+
+                allReceivers = data.receivers || [];
+                updateStatsOverview(allReceivers);
+                applyFilters();
+            } catch (error) {
+                console.error('Error fetching receivers:', error);
+                showEmptyState('Network error connecting to API.');
+            }
+        }
+
+        function updateStatsOverview(receivers) {
+            const total = receivers.length;
+            const pending = receivers.filter(r => (r.status || '').toLowerCase() === 'pending').length;
+            const approved = receivers.filter(r => (r.status || '').toLowerCase() === 'approved').length;
+            const organs = receivers.filter(r => (r.needed_organ || '').trim() !== '').length;
+            const critical = receivers.filter(r => (r.emergency_level || '').toLowerCase() === 'critical').length;
+
+            document.getElementById('statTotalReceivers').textContent = total;
+            document.getElementById('statPendingReceivers').textContent = pending;
+            document.getElementById('statApprovedReceivers').textContent = approved;
+            document.getElementById('statOrganReceivers').textContent = organs;
+            document.getElementById('statCriticalReceivers').textContent = critical;
+            document.getElementById('totalCount').textContent = total;
+        }
+
+        function applyFilters() {
+            const query = (document.getElementById('filterSearchQuery').value || '').trim().toLowerCase();
+            const blood = (document.getElementById('filterBloodGroup').value || '').trim();
+            const organ = (document.getElementById('filterNeededOrgan').value || '').trim().toLowerCase();
+            const city = (document.getElementById('filterCity').value || '').trim().toLowerCase();
+            const status = (document.getElementById('filterStatus').value || '').trim().toLowerCase();
+            const regDate = (document.getElementById('filterDate').value || '').trim();
+
+            filteredReceivers = allReceivers.filter(r => {
+                if (query) {
+                    const idMatch = (r.receiver_id || '').toLowerCase().includes(query);
+                    const nameMatch = (r.name || '').toLowerCase().includes(query);
+                    const phoneMatch = (r.phone || '').toLowerCase().includes(query);
+                    const emailMatch = (r.email || '').toLowerCase().includes(query);
+                    if (!idMatch && !nameMatch && !phoneMatch && !emailMatch) return false;
+                }
+
+                if (blood && (r.blood_group || '').trim() !== blood) return false;
+                if (organ && !(r.needed_organ || '').toLowerCase().includes(organ)) return false;
+                if (city && !(r.city || '').toLowerCase().includes(city)) return false;
+                if (status && (r.status || '').toLowerCase() !== status) return false;
+
+                if (regDate) {
+                    const dCreated = (r.created_at || '').substring(0, 10);
+                    if (dCreated !== regDate) return false;
+                }
+
+                return true;
+            });
+
+            currentPage = 1;
+            renderReceiversTable();
+        }
+
+        function resetFilters() {
+            document.getElementById('filterSearchQuery').value = '';
+            document.getElementById('filterBloodGroup').value = '';
+            document.getElementById('filterNeededOrgan').value = '';
+            document.getElementById('filterCity').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('filterDate').value = '';
+            filteredReceivers = [...allReceivers];
+            currentPage = 1;
+            renderReceiversTable();
+            showToast('Filters reset successfully', 'info');
+        }
+
+        function changePageSize(size) {
+            pageSize = parseInt(size, 10) || 25;
+            currentPage = 1;
+            renderReceiversTable();
+        }
+
+        function renderReceiversTable() {
+            const tbody = document.getElementById('receiversTableBody');
+            const total = filteredReceivers.length;
+            document.getElementById('visibleCount').textContent = total;
+
+            if (total === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="14" class="empty-state-wrap">
+                            <i class="fa-solid fa-folder-open empty-state-icon"></i>
+                            <div class="empty-state-title">No Receiver Records Found</div>
+                            <p>Try adjusting your search criteria.</p>
+                        </td>
+                    </tr>
+                `;
+                renderPagination(0);
+                return;
+            }
+
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, total);
+            const pageData = filteredReceivers.slice(startIndex, endIndex);
+
+            tbody.innerHTML = pageData.map(r => {
+                const status = (r.status || 'Pending').trim();
+                const statusClass = status.toLowerCase() === 'approved' || status.toLowerCase() === 'matched' 
+                    ? 'status-approved' 
+                    : (status.toLowerCase() === 'rejected' || status.toLowerCase() === 'closed' ? 'status-rejected' : 'status-pending');
+                
+                const createdDate = r.created_at ? r.created_at.substring(0, 19).replace('T', ' ') : '-';
+                const neededOrgan = r.needed_organ || 'Kidney';
+
+                let actionButtons = `
+                    <button type="button" class="btn-act btn-act-view" onclick="viewReceiver(${r.id})" title="View Details">
+                        <i class="fa-solid fa-eye"></i> View
+                    </button>
+                    <a href="/admin/find-organ?blood_group=${encodeURIComponent(r.blood_group || '')}&organ=${encodeURIComponent(r.needed_organ || '')}&city=${encodeURIComponent(r.city || '')}" class="btn-act btn-act-find" title="Find matching organ donors">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Find Donor
+                    </a>
+                `;
+
+                if (status.toLowerCase() !== 'approved') {
+                    actionButtons += `
+                        <button type="button" class="btn-act btn-act-approve" onclick="confirmStatusChange(${r.id}, 'Approved', '${escapeHtml(r.name)}')" title="Approve Receiver">
+                            <i class="fa-solid fa-check"></i> Approve
+                        </button>
+                    `;
+                }
+
+                if (status.toLowerCase() !== 'rejected') {
+                    actionButtons += `
+                        <button type="button" class="btn-act btn-act-reject" onclick="confirmStatusChange(${r.id}, 'Rejected', '${escapeHtml(r.name)}')" title="Reject Receiver">
+                            <i class="fa-solid fa-ban"></i> Reject
+                        </button>
+                    `;
+                }
+
+                actionButtons += `
+                    <button type="button" class="btn-act btn-act-delete" onclick="confirmDeleteReceiver(${r.id}, '${escapeHtml(r.name)}')" title="Delete Receiver">
+                        <i class="fa-solid fa-trash-can"></i> Delete
+                    </button>
+                `;
+
+                return `
+                    <tr>
+                        <td class="col-rec-id">${escapeHtml(r.receiver_id || 'N/A')}</td>
+                        <td style="text-align:center;">
+                            <img src="/static/img/default-avatar.png" alt="Photo" class="donor-avatar-circle" />
+                        </td>
+                        <td class="col-name">${escapeHtml(r.name || '-')}</td>
+                        <td>${escapeHtml(r.age || '-')}</td>
+                        <td>${escapeHtml(r.gender || '-')}</td>
+                        <td>
+                            <a href="tel:${escapeHtml(r.phone || '')}" style="color:var(--text-main); text-decoration:none; font-family:monospace;">
+                                ${escapeHtml(r.phone || '-')}
+                            </a>
+                        </td>
+                        <td>
+                            <span class="blood-badge">
+                                <i class="fa-solid fa-droplet" style="font-size:0.65rem;"></i>
+                                ${escapeHtml(r.blood_group || '-')}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="organ-tag">${escapeHtml(neededOrgan)}</span>
+                        </td>
+                        <td class="col-address" title="${escapeHtml(r.address || '')}">${escapeHtml(r.address || '-')}</td>
+                        <td>${escapeHtml(r.city || '-')}</td>
+                        <td class="col-reports">
+                            <button type="button" class="btn-report-pill" onclick="viewReceiver(${r.id})">
+                                <i class="fa-solid fa-file-medical"></i> View Reports
+                            </button>
+                        </td>
+                        <td>${escapeHtml(createdDate)}</td>
+                        <td>
+                            <span class="status-badge ${statusClass}">
+                                <span class="status-dot"></span>
+                                ${escapeHtml(status)}
+                            </span>
+                        </td>
+                        <td class="col-action">
+                            <div class="action-btn-group">
+                                ${actionButtons}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            renderPagination(total);
+        }
+
+        function renderPagination(total) {
+            const paginationContainer = document.getElementById('paginationControls');
+            const rangeText = document.getElementById('paginationRangeText');
+
+            if (total === 0) {
+                rangeText.textContent = 'Showing 0–0 of 0 receivers';
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            const totalPages = Math.ceil(total / pageSize) || 1;
+            const startRange = (currentPage - 1) * pageSize + 1;
+            const endRange = Math.min(currentPage * pageSize, total);
+            rangeText.textContent = `Showing ${startRange}–${endRange} of ${total} receivers`;
+
+            let paginationHtml = `
+                <button type="button" class="btn-page" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fa-solid fa-chevron-left"></i> Previous
+                </button>
+            `;
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHtml += `
+                        <button type="button" class="btn-page ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>
+                    `;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHtml += `<span style="padding:0 4px; color:var(--text-muted);">...</span>`;
+                }
+            }
+
+            paginationHtml += `
+                <button type="button" class="btn-page" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    Next <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            `;
+
+            paginationContainer.innerHTML = paginationHtml;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredReceivers.length / pageSize) || 1;
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderReceiversTable();
+            document.querySelector('.table-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function viewReceiver(receiverId) {
+            try {
+                const res = await fetch(`/api/admin/receivers/${receiverId}`);
+                const data = await res.json();
+                
+                if (!data.success) {
+                    showToast(data.message || 'Receiver record not found', 'error');
+                    return;
+                }
+
+                const r = data.receiver;
+                const reports = data.health_reports || [];
+                const status = (r.status || 'Pending').trim();
+                const statusClass = status.toLowerCase() === 'approved' || status.toLowerCase() === 'matched' ? 'status-approved' : (status.toLowerCase() === 'rejected' ? 'status-rejected' : 'status-pending');
+
+                document.getElementById('modalReceiverName').textContent = `Patient: ${r.name || 'Organ Receiver'}`;
+                document.getElementById('modalReceiverId').textContent = r.receiver_id || '';
+                document.getElementById('modalStatusBadge').innerHTML = `
+                    <span class="status-badge ${statusClass}">
+                        <span class="status-dot"></span>
+                        ${escapeHtml(status)}
+                    </span>
+                `;
+
+                const createdDate = r.created_at ? r.created_at.substring(0, 19).replace('T', ' ') : '-';
+
+                let reportsHtml = '';
+                if (reports.length > 0) {
+                    reportsHtml = reports.map(rep => `
+                        <div class="report-item-pill">
+                            <div>
+                                <strong><i class="fa-solid fa-file-pdf" style="color:var(--brand-red);"></i> ${escapeHtml(rep.report_type)}</strong>
+                                <small style="display:block; color:var(--text-muted); font-size:0.75rem;">${escapeHtml(rep.file_name)}</small>
+                            </div>
+                            <a href="${escapeHtml(rep.file_path)}" target="_blank" class="btn-act btn-act-view" style="text-decoration:none;">
+                                <i class="fa-solid fa-eye"></i> View File
+                            </a>
+                        </div>
+                    `).join('');
+                } else {
+                    reportsHtml = '<p style="color:var(--text-muted); font-size:0.8rem;">No medical report files uploaded.</p>';
+                }
+
+                const modalBody = document.getElementById('receiverModalBody');
+                modalBody.innerHTML = `
+                    <div class="modal-cards-grid">
+                        <!-- CARD 1: PROFILE & CONTACT -->
+                        <div class="detail-card">
+                            <div class="detail-card-title">
+                                <i class="fa-solid fa-user-injured"></i> Patient Profile
+                            </div>
+                            <div class="info-kv-grid">
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Patient Name</span>
+                                    <span class="info-kv-val">${escapeHtml(r.name || '-')}</span>
+                                </div>
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Age / Gender</span>
+                                    <span class="info-kv-val">${escapeHtml(r.age || '-')} Yrs • ${escapeHtml(r.gender || '-')}</span>
+                                </div>
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Phone</span>
+                                    <span class="info-kv-val"><a href="tel:${escapeHtml(r.phone || '')}" style="color:var(--brand-blue); text-decoration:none;">${escapeHtml(r.phone || '-')}</a></span>
+                                </div>
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Email</span>
+                                    <span class="info-kv-val">${escapeHtml(r.email || '-')}</span>
+                                </div>
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Emergency Contact</span>
+                                    <span class="info-kv-val">${escapeHtml(r.contact_number || '-')}</span>
+                                </div>
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Registered Date</span>
+                                    <span class="info-kv-val">${escapeHtml(createdDate)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARD 2: MEDICAL & ORGAN REQUIREMENT -->
+                        <div class="detail-card">
+                            <div class="detail-card-title">
+                                <i class="fa-solid fa-heart-pulse"></i> Medical Requirement
+                            </div>
+                            <div class="info-kv-grid">
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Blood Group</span>
+                                    <span class="info-kv-val">
+                                        <span class="blood-badge" style="font-size:0.9rem;">
+                                            <i class="fa-solid fa-droplet"></i> ${escapeHtml(r.blood_group || '-')}
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Needed Organ</span>
+                                    <span class="info-kv-val">
+                                        <span class="organ-tag" style="font-size:0.85rem; padding:0.3rem 0.75rem;">${escapeHtml(r.needed_organ || 'Kidney')}</span>
+                                    </span>
+                                </div>
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Emergency Level</span>
+                                    <span class="info-kv-val" style="color:var(--rose); font-weight:700;">${escapeHtml(r.emergency_level || 'High')}</span>
+                                </div>
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">Status</span>
+                                    <span class="info-kv-val">${escapeHtml(status)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARD 3: ADDRESS -->
+                        <div class="detail-card">
+                            <div class="detail-card-title">
+                                <i class="fa-solid fa-location-dot"></i> Address
+                            </div>
+                            <div class="info-kv-grid">
+                                <div class="info-kv-item full-width">
+                                    <span class="info-kv-label">Residential Address</span>
+                                    <span class="info-kv-val" style="line-height:1.45;">${escapeHtml(r.address || '-')}</span>
+                                </div>
+                                <div class="info-kv-item">
+                                    <span class="info-kv-label">City</span>
+                                    <span class="info-kv-val">${escapeHtml(r.city || '-')}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARD 4: HEALTH REPORTS -->
+                        <div class="detail-card">
+                            <div class="detail-card-title">
+                                <i class="fa-solid fa-file-medical"></i> Attached Health Reports
+                            </div>
+                            <div class="reports-list-wrapper">
+                                ${reportsHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('modalFooterActions').innerHTML = `
+                    <button type="button" class="btn-filter-reset" onclick="closeModal('receiverDetailModal')">Close</button>
+                    <a href="/admin/find-organ?blood_group=${encodeURIComponent(r.blood_group || '')}&organ=${encodeURIComponent(r.needed_organ || '')}&city=${encodeURIComponent(r.city || '')}" class="btn-act btn-act-find" style="padding:0.55rem 1rem; text-decoration:none;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Match Organ Donors
+                    </a>
+                    <button type="button" class="btn-act btn-act-approve" style="padding:0.55rem 1rem;" onclick="closeModal('receiverDetailModal'); confirmStatusChange(${r.id}, 'Approved', '${escapeHtml(r.name)}');">Approve</button>
+                    <button type="button" class="btn-act btn-act-delete" style="padding:0.55rem 1rem;" onclick="closeModal('receiverDetailModal'); confirmDeleteReceiver(${r.id}, '${escapeHtml(r.name)}');">Delete</button>
+                `;
+
+                openModal('receiverDetailModal');
+            } catch (error) {
+                console.error('View error:', error);
+                showToast('Unable to fetch receiver details', 'error');
+            }
+        }
+
+        function confirmStatusChange(receiverId, newStatus, patientName) {
+            pendingAction = { type: 'status', id: receiverId, status: newStatus };
+            const isApprove = newStatus.toLowerCase() === 'approved';
+            
+            const iconWrap = document.getElementById('confirmDialogIcon');
+            const titleEl = document.getElementById('confirmDialogTitle');
+            const msgEl = document.getElementById('confirmDialogMessage');
+            const btnSubmit = document.getElementById('btnConfirmActionSubmit');
+
+            if (isApprove) {
+                iconWrap.className = 'confirm-icon-circle confirm-icon-approve';
+                iconWrap.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                titleEl.textContent = 'Approve Receiver Requirement';
+                msgEl.textContent = `Are you sure you want to approve receiver "${patientName || 'this patient'}" for donor matching?`;
+                btnSubmit.className = 'btn-dialog-confirm btn-confirm-approve';
+                btnSubmit.textContent = 'Confirm Approval';
+            } else {
+                iconWrap.className = 'confirm-icon-circle confirm-icon-reject';
+                iconWrap.innerHTML = '<i class="fa-solid fa-ban"></i>';
+                titleEl.textContent = 'Reject Receiver Requirement';
+                msgEl.textContent = `Are you sure you want to reject receiver "${patientName || 'this patient'}"?`;
+                btnSubmit.className = 'btn-dialog-confirm btn-confirm-reject';
+                btnSubmit.textContent = 'Confirm Rejection';
+            }
+
+            btnSubmit.onclick = executePendingAction;
+            openModal('confirmActionModal');
+        }
+
+        function confirmDeleteReceiver(receiverId, patientName) {
+            pendingAction = { type: 'delete', id: receiverId };
+            const iconWrap = document.getElementById('confirmDialogIcon');
+            const titleEl = document.getElementById('confirmDialogTitle');
+            const msgEl = document.getElementById('confirmDialogMessage');
+            const btnSubmit = document.getElementById('btnConfirmActionSubmit');
+
+            iconWrap.className = 'confirm-icon-circle confirm-icon-delete';
+            iconWrap.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+            titleEl.textContent = 'Permanently Delete Receiver Record';
+            msgEl.textContent = `Are you sure you want to delete receiver record for "${patientName || 'this patient'}"? This action cannot be undone.`;
+            btnSubmit.className = 'btn-dialog-confirm btn-confirm-delete';
+            btnSubmit.textContent = 'Confirm Delete';
+
+            btnSubmit.onclick = executePendingAction;
+            openModal('confirmActionModal');
+        }
+
+        async function executePendingAction() {
+            if (!pendingAction) return;
+            const btnSubmit = document.getElementById('btnConfirmActionSubmit');
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+
+            try {
+                if (pendingAction.type === 'status') {
+                    const res = await fetch(`/api/admin/receivers/${pendingAction.id}/status`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status: pendingAction.status })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        showToast(`Receiver status updated to ${pendingAction.status} successfully!`, 'success');
+                        closeModal('confirmActionModal');
+                        await loadReceivers();
+                    } else {
+                        showToast(data.message || 'Failed to update status.', 'error');
+                    }
+                } else if (pendingAction.type === 'delete') {
+                    const res = await fetch(`/api/admin/receivers/${pendingAction.id}`, { method: 'DELETE' });
+                    const data = await res.json();
+                    if (data.success) {
+                        showToast('Receiver record deleted permanently.', 'success');
+                        closeModal('confirmActionModal');
+                        await loadReceivers();
+                    } else {
+                        showToast(data.message || 'Failed to delete receiver.', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Error executing action:', error);
+                showToast('A network error occurred.', 'error');
+            } finally {
+                btnSubmit.disabled = false;
+                pendingAction = null;
+            }
+        }
+
+        async function adminLogout() {
+            try { await fetch('/api/admin/logout', { method: 'POST' }); } catch (e) {}
+            sessionStorage.removeItem('odms_admin_logged_in');
+            window.location.href = '/';
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function handleBackdropClick(event, modalId) {
+            if (event.target === document.getElementById(modalId)) closeModal(modalId);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('receiverDetailModal');
+                closeModal('confirmActionModal');
+            }
+        });
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toastAlert');
+            const icon = document.getElementById('toastIcon');
+            const msg = document.getElementById('toastMessage');
+            toast.className = 'toast-notification show';
+            if (type === 'success') { toast.classList.add('toast-success'); icon.className = 'fa-solid fa-circle-check'; }
+            else if (type === 'error') { toast.classList.add('toast-error'); icon.className = 'fa-solid fa-circle-exclamation'; }
+            else { toast.classList.add('toast-info'); icon.className = 'fa-solid fa-circle-info'; }
+            msg.textContent = message;
+            setTimeout(() => { toast.classList.remove('show'); }, 3500);
+        }
+
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        function showEmptyState(msg) {
+            const tbody = document.getElementById('receiversTableBody');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="14" class="empty-state-wrap">
+                        <i class="fa-solid fa-circle-exclamation empty-state-icon" style="color:var(--rose);"></i>
+                        <div class="empty-state-title">Notice</div>
+                        <p>${escapeHtml(msg)}</p>
+                    </td>
+                </tr>
+            `;
+            renderPagination(0);
+        }
+    </script>
+</body>
+</html>

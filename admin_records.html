@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Records Management | Admin Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-k5m8VqS9V+VQy1B5y1z1eK2z1QFz0J6k3rJ9F1h3G7q9VQjb9f5Hh3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-dark: #020617;
+            --brand-blue: #0284c7;
+            --brand-blue-hover: #0369a1;
+            --brand-teal: #0d9488;
+            --brand-red: #e11d48;
+            
+            --emerald: #059669;
+            --emerald-bg: #ecfdf5;
+            --emerald-border: #a7f3d0;
+            --emerald-text: #065f46;
+            
+            --amber: #d97706;
+            --amber-bg: #fffbeb;
+            --amber-border: #fde68a;
+            --amber-text: #92400e;
+            
+            --rose: #e11d48;
+            --rose-bg: #fff1f2;
+            --rose-border: #fecdd3;
+            --rose-text: #9f1239;
+            
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border-subtle: #e2e8f0;
+            --border-medium: #cbd5e1;
+            
+            --text-main: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-full: 9999px;
+            
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* 1. TOP HEADER */
+        .admin-header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-subtle);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .header-inner {
+            max-width: 1720px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+        }
+
+        .brand-icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+        }
+
+        .brand-text-group h1 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .brand-text-group p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #f1f5f9;
+            padding: 0.35rem 0.85rem 0.35rem 0.45rem;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .admin-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-full);
+            background: var(--primary);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .admin-profile-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .admin-name {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .admin-role {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #fff1f2;
+            color: var(--rose);
+            border: 1px solid var(--rose-border);
+            padding: 0.5rem 0.9rem;
+            border-radius: var(--radius-md);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-logout:hover {
+            background: #ffe4e6;
+            color: #9f1239;
+        }
+
+        /* PAGE MAIN CONTAINER */
+        .page-container {
+            max-width: 1720px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            flex: 1;
+        }
+
+        /* 2. SUBNAV BAR WITH BACK BUTTON */
+        .subnav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .btn-back-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #ffffff;
+            color: var(--primary);
+            border: 1px solid var(--border-medium);
+            padding: 0.55rem 1.1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: var(--shadow-xs);
+            transition: var(--transition);
+        }
+
+        .btn-back-dashboard:hover {
+            background: #f1f5f9;
+            border-color: var(--text-secondary);
+            color: var(--brand-blue);
+            transform: translateX(-2px);
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--brand-blue);
+        }
+
+        .breadcrumbs span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* 3. PAGE TITLE & STATUS FILTER BAR */
+        .title-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .title-block h2 {
+            font-size: 1.75rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary);
+        }
+
+        .title-block p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 0.2rem;
+        }
+
+        /* STATS PILLS */
+        .stats-cards-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card-compact {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--shadow-xs);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .stat-card-compact:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-icon-wrap {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .stat-val-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-num {
+            font-size: 1.25rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.1;
+            color: var(--primary);
+        }
+
+        .stat-lbl {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .stat-pending .stat-icon-wrap { background: var(--amber-bg); color: var(--amber); }
+        .stat-approved .stat-icon-wrap { background: var(--emerald-bg); color: var(--emerald); }
+        .stat-rejected .stat-icon-wrap { background: var(--rose-bg); color: var(--rose); }
+        .stat-total .stat-icon-wrap { background: #eff6ff; color: var(--brand-blue); }
+
+        /* STATUS TAB PILLS (PENDING / APPROVED / REJECTED / ALL) */
+        .status-pills-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #ffffff;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-xs);
+            overflow-x: auto;
+        }
+
+        .status-pill-btn {
+            border: none;
+            background: transparent;
+            padding: 0.55rem 1.1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .status-pill-btn .pill-count {
+            padding: 0.15rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-size: 0.72rem;
+            background: #e2e8f0;
+            color: var(--primary);
+        }
+
+        .status-pill-btn:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .status-pill-btn.active.pill-pending {
+            background: var(--amber-bg);
+            color: var(--amber-text);
+            box-shadow: inset 0 0 0 1px var(--amber-border);
+        }
+        .status-pill-btn.active.pill-pending .pill-count { background: var(--amber); color: white; }
+
+        .status-pill-btn.active.pill-approved {
+            background: var(--emerald-bg);
+            color: var(--emerald-text);
+            box-shadow: inset 0 0 0 1px var(--emerald-border);
+        }
+        .status-pill-btn.active.pill-approved .pill-count { background: var(--emerald); color: white; }
+
+        .status-pill-btn.active.pill-rejected {
+            background: var(--rose-bg);
+            color: var(--rose-text);
+            box-shadow: inset 0 0 0 1px var(--rose-border);
+        }
+        .status-pill-btn.active.pill-rejected .pill-count { background: var(--rose); color: white; }
+
+        .status-pill-btn.active.pill-all {
+            background: var(--primary);
+            color: white;
+        }
+        .status-pill-btn.active.pill-all .pill-count { background: rgba(255,255,255,0.25); color: white; }
+
+        /* CATEGORY TABS */
+        .category-tabs-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-tab-btn {
+            border: 1px solid var(--border-subtle);
+            background: #ffffff;
+            padding: 0.45rem 0.95rem;
+            border-radius: var(--radius-md);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: var(--transition);
+        }
+
+        .cat-tab-btn:hover {
+            border-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+
+        .cat-tab-btn.active {
+            background: var(--brand-blue);
+            color: white;
+            border-color: var(--brand-blue);
+        }
+
+        /* 4. FILTER PANEL */
+        .filter-panel {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .filter-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .input-with-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 0.85rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            pointer-events: none;
+        }
+
+        .input-with-icon input {
+            padding-left: 2.35rem;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            height: 40px;
+            padding: 0.5rem 0.85rem;
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md);
+            background: #ffffff;
+            font-size: 0.875rem;
+            color: var(--text-main);
+            font-family: inherit;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--brand-blue);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        .btn-filter-reset {
+            height: 40px;
+            padding: 0 1rem;
+            border: 1px solid var(--border-medium);
+            background: #f8fafc;
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--transition);
+        }
+
+        .btn-filter-reset:hover {
+            background: #e2e8f0;
+            color: var(--primary);
+        }
+
+        /* 5. DATA TABLE SECTION */
+        .table-card {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .table-toolbar {
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+            background: #ffffff;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .table-info-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .table-info-text strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.records-table {
+            width: 100%;
+            min-width: 1200px;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #ffffff;
+        }
+
+        table.records-table thead {
+            background-color: #f8fafc;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        table.records-table th {
+            padding: 14px 16px;
+            vertical-align: middle;
+            text-align: left;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border-medium);
+            white-space: nowrap;
+        }
+
+        table.records-table td {
+            padding: 13px 16px;
+            vertical-align: middle;
+            text-align: left;
+            font-size: 0.825rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-subtle);
+            background-color: #ffffff;
+            transition: background-color 0.15s ease;
+        }
+
+        table.records-table tbody tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        table.records-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* BADGES */
+        .cat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .cat-badge-organ-donor { background: #fee2e2; color: #991b1b; }
+        .cat-badge-blood-donor { background: #eff6ff; color: #1e40af; }
+        .cat-badge-receiver { background: #ccfbf1; color: #115e59; }
+        .cat-badge-blood-request { background: #f3e8ff; color: #6b21a8; }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+        .status-approved {
+            background: var(--emerald-bg);
+            color: var(--emerald-text);
+            border: 1px solid var(--emerald-border);
+        }
+        .status-approved .status-dot { background: var(--emerald); }
+
+        .status-pending {
+            background: var(--amber-bg);
+            color: var(--amber-text);
+            border: 1px solid var(--amber-border);
+        }
+        .status-pending .status-dot { background: var(--amber); }
+
+        .status-rejected {
+            background: var(--rose-bg);
+            color: var(--rose-text);
+            border: 1px solid var(--rose-border);
+        }
+        .status-rejected .status-dot { background: var(--rose); }
+
+        /* ACTION BUTTONS */
+        .action-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-act {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+
+        .btn-act-view { background: #f0f9ff; color: #0369a1; border-color: #bae6fd; }
+        .btn-act-view:hover { background: #0284c7; color: #ffffff; }
+
+        .btn-act-approve { background: var(--emerald-bg); color: var(--emerald-text); border-color: var(--emerald-border); }
+        .btn-act-approve:hover { background: var(--emerald); color: #ffffff; }
+
+        .btn-act-reject { background: var(--amber-bg); color: var(--amber-text); border-color: var(--amber-border); }
+        .btn-act-reject:hover { background: var(--amber); color: #ffffff; }
+
+        .btn-act-delete { background: var(--rose-bg); color: var(--rose-text); border-color: var(--rose-border); }
+        .btn-act-delete:hover { background: var(--rose); color: #ffffff; }
+
+        /* PAGINATION */
+        .pagination-container {
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-subtle);
+            background: #ffffff;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .btn-page {
+            min-width: 34px;
+            height: 34px;
+            padding: 0 0.5rem;
+            border: 1px solid var(--border-medium);
+            background: #ffffff;
+            color: var(--text-main);
+            border-radius: var(--radius-sm);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .btn-page:hover:not(:disabled) {
+            border-color: var(--brand-blue);
+            color: var(--brand-blue);
+            background: #f0f9ff;
+        }
+
+        .btn-page.active {
+            background: var(--brand-blue);
+            color: #ffffff;
+            border-color: var(--brand-blue);
+        }
+
+        .btn-page:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        /* EMPTY STATE */
+        .empty-state-wrap {
+            padding: 4rem 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .empty-state-icon {
+            font-size: 2.75rem;
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .empty-state-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* MODAL */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 680px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            transform: scale(0.96);
+            transition: transform 0.2s ease;
+        }
+
+        .modal-backdrop.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-header-clean {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+        }
+
+        .btn-close-modal {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+
+        .modal-body-scroll {
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .modal-footer-clean {
+            padding: 1rem 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        /* CONFIRM DIALOG */
+        .confirm-dialog-wrap {
+            width: 100%; max-width: 440px; background: #ffffff;
+            border-radius: var(--radius-lg); box-shadow: var(--shadow-xl);
+            padding: 1.75rem; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .confirm-icon-circle {
+            width: 56px; height: 56px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 1rem;
+        }
+
+        .confirm-icon-approve { background: var(--emerald-bg); color: var(--emerald); }
+        .confirm-icon-reject { background: var(--amber-bg); color: var(--amber); }
+        .confirm-icon-delete { background: var(--rose-bg); color: var(--rose); }
+
+        .confirm-title { font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; }
+        .confirm-message { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.5rem; }
+        .confirm-actions { display: flex; gap: 0.75rem; width: 100%; }
+
+        .btn-dialog-cancel {
+            flex: 1; padding: 0.65rem 1rem; background: #f1f5f9;
+            color: var(--text-main); border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-dialog-confirm {
+            flex: 1; padding: 0.65rem 1rem; color: #ffffff;
+            border: none; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-dialog-confirm.btn-confirm-approve { background: var(--emerald); }
+        .btn-dialog-confirm.btn-confirm-reject { background: var(--amber); }
+        .btn-dialog-confirm.btn-confirm-delete { background: var(--rose); }
+
+        /* TOAST */
+        .toast-notification {
+            position: fixed; bottom: 1.5rem; right: 1.5rem;
+            background: #0f172a; color: #ffffff; padding: 0.85rem 1.25rem;
+            border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
+            display: flex; align-items: center; gap: 0.75rem;
+            font-size: 0.85rem; font-weight: 500; z-index: 9999;
+            opacity: 0; transform: translateY(12px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .toast-notification.show { opacity: 1; transform: translateY(0); }
+        .toast-notification.toast-success { background: #064e3b; border: 1px solid #059669; }
+        .toast-notification.toast-error { background: #881337; border: 1px solid #e11d48; }
+        .toast-notification.toast-info { background: #0c4a6e; border: 1px solid #0284c7; }
+
+        @media (max-width: 1024px) {
+            .title-stats-grid { grid-template-columns: 1fr; }
+            .filter-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 640px) {
+            .page-container { padding: 1rem; }
+            .filter-grid { grid-template-columns: 1fr; }
+            .header-inner { flex-direction: column; align-items: flex-start; }
+            .header-right { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. TOP HEADER -->
+    <header class="admin-header">
+        <div class="header-inner">
+            <a href="/admin" class="header-brand">
+                <div class="brand-icon-box">
+                    <i class="fa-solid fa-notes-medical"></i>
+                </div>
+                <div class="brand-text-group">
+                    <h1>Organ & Blood Donation Management System</h1>
+                    <p>Official Healthcare Administration Portal</p>
+                </div>
+            </a>
+            
+            <div class="header-right">
+                <div class="admin-profile-pill">
+                    <div class="admin-avatar-small">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div class="admin-profile-info">
+                        <span class="admin-name" id="adminHeaderName">System Admin</span>
+                        <span class="admin-role">Super Administrator</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-logout" onclick="adminLogout()">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE MAIN CONTENT -->
+    <main class="page-container">
+        
+        <!-- 2. BACK BUTTON & BREADCRUMBS -->
+        <div class="subnav-bar">
+            <a href="/admin" class="btn-back-dashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Admin Dashboard</span>
+            </a>
+            <div class="breadcrumbs">
+                <a href="/admin"><i class="fa-solid fa-house"></i> Admin</a>
+                <i class="fa-solid fa-chevron-right" style="font-size:0.65rem;"></i>
+                <span id="breadcrumbCurrentPage">Status Records Management</span>
+            </div>
+        </div>
+
+        <!-- 3. PAGE TITLE & STATUS FILTER BAR -->
+        <div class="title-stats-grid">
+            <div class="title-block">
+                <h2 id="pageMainHeading">
+                    <i class="fa-solid fa-clipboard-check" style="color:var(--brand-blue);"></i>
+                    <span id="headingTitleText">Status Records Management</span>
+                </h2>
+                <p id="headingSubtitleText">Review, verify and manage donor registrations, receiver requirements, and emergency requests</p>
+            </div>
+
+            <div class="stats-cards-wrapper">
+                <div class="stat-card-compact stat-pending" onclick="selectStatusTab('Pending')">
+                    <div class="stat-icon-wrap"><i class="fa-solid fa-clock"></i></div>
+                    <div class="stat-val-group">
+                        <div class="stat-num" id="statPendingCount">0</div>
+                        <div class="stat-lbl">Pending</div>
+                    </div>
+                </div>
+
+                <div class="stat-card-compact stat-approved" onclick="selectStatusTab('Approved')">
+                    <div class="stat-icon-wrap"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-val-group">
+                        <div class="stat-num" id="statApprovedCount">0</div>
+                        <div class="stat-lbl">Approved</div>
+                    </div>
+                </div>
+
+                <div class="stat-card-compact stat-rejected" onclick="selectStatusTab('Rejected')">
+                    <div class="stat-icon-wrap"><i class="fa-solid fa-ban"></i></div>
+                    <div class="stat-val-group">
+                        <div class="stat-num" id="statRejectedCount">0</div>
+                        <div class="stat-lbl">Rejected</div>
+                    </div>
+                </div>
+
+                <div class="stat-card-compact stat-total" onclick="selectStatusTab('')">
+                    <div class="stat-icon-wrap"><i class="fa-solid fa-layer-group"></i></div>
+                    <div class="stat-val-group">
+                        <div class="stat-num" id="statTotalCount">0</div>
+                        <div class="stat-lbl">Total Records</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATUS TABS (Pending / Approved / Rejected / All) -->
+        <div class="status-pills-bar">
+            <button type="button" class="status-pill-btn pill-pending" id="statusTabPending" onclick="selectStatusTab('Pending')">
+                <i class="fa-solid fa-clock"></i>
+                <span>Pending Approvals</span>
+                <span class="pill-count" id="badgePendingCount">0</span>
+            </button>
+            <button type="button" class="status-pill-btn pill-approved" id="statusTabApproved" onclick="selectStatusTab('Approved')">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Approved Records</span>
+                <span class="pill-count" id="badgeApprovedCount">0</span>
+            </button>
+            <button type="button" class="status-pill-btn pill-rejected" id="statusTabRejected" onclick="selectStatusTab('Rejected')">
+                <i class="fa-solid fa-ban"></i>
+                <span>Rejected Records</span>
+                <span class="pill-count" id="badgeRejectedCount">0</span>
+            </button>
+            <button type="button" class="status-pill-btn pill-all" id="statusTabAll" onclick="selectStatusTab('')">
+                <i class="fa-solid fa-list-check"></i>
+                <span>All Records</span>
+                <span class="pill-count" id="badgeAllCount">0</span>
+            </button>
+        </div>
+
+        <!-- CATEGORY TABS -->
+        <div class="category-tabs-bar">
+            <button type="button" class="cat-tab-btn active" data-cat="" onclick="selectCategoryTab('')">
+                <i class="fa-solid fa-layer-group"></i> All Categories
+            </button>
+            <button type="button" class="cat-tab-btn" data-cat="donors" onclick="selectCategoryTab('donors')">
+                <i class="fa-solid fa-heart"></i> Organ Donors
+            </button>
+            <button type="button" class="cat-tab-btn" data-cat="blood_donors" onclick="selectCategoryTab('blood_donors')">
+                <i class="fa-solid fa-droplet"></i> Blood Donors
+            </button>
+            <button type="button" class="cat-tab-btn" data-cat="receivers" onclick="selectCategoryTab('receivers')">
+                <i class="fa-solid fa-users"></i> Receivers
+            </button>
+            <button type="button" class="cat-tab-btn" data-cat="blood_requests" onclick="selectCategoryTab('blood_requests')">
+                <i class="fa-solid fa-truck-medical"></i> Blood Requests
+            </button>
+        </div>
+
+        <!-- 4. SEARCH & FILTER PANEL -->
+        <section class="filter-panel">
+            <div class="filter-grid">
+                <div class="filter-item">
+                    <label class="filter-label" for="filterSearchQuery">Search Records</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="filterSearchQuery" class="form-control-custom" placeholder="Search by ID, Name, Blood Group, Organ, City, Hospital...">
+                    </div>
+                </div>
+
+                <div class="filter-item">
+                    <label class="filter-label" for="filterBloodGroup">Blood Group</label>
+                    <select id="filterBloodGroup" class="form-control-custom">
+                        <option value="">All Blood Groups</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label class="filter-label" for="filterCity">City / Location</label>
+                    <input type="text" id="filterCity" class="form-control-custom" placeholder="Filter by City...">
+                </div>
+
+                <div class="filter-item">
+                    <button type="button" class="btn-filter-reset" onclick="resetFilters()">
+                        <i class="fa-solid fa-rotate-left"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. DATA TABLE SECTION -->
+        <section class="table-card">
+            <div class="table-toolbar">
+                <div class="table-info-text">
+                    Showing <strong id="visibleRecordCount">0</strong> of <strong id="totalRecordCount">0</strong> records
+                </div>
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <label style="font-size:0.8rem; color:var(--text-secondary);">Page Size:</label>
+                    <select id="pageSizeSelect" class="form-control-custom" style="height:32px; width:80px; padding:0 0.5rem;" onchange="changePageSize(this.value)">
+                        <option value="15">15</option>
+                        <option value="25" selected>25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="records-table">
+                    <thead>
+                        <tr>
+                            <th>Record ID</th>
+                            <th>Category</th>
+                            <th>Name / Patient</th>
+                            <th>Blood / Organ</th>
+                            <th>Contact</th>
+                            <th>City / Hospital</th>
+                            <th>Registered Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsTableBody">
+                        <tr>
+                            <td colspan="9" class="empty-state-wrap">
+                                <i class="fa-solid fa-circle-notch fa-spin empty-state-icon" style="color:var(--brand-blue);"></i>
+                                <div class="empty-state-title">Loading Records...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-container">
+                <div class="table-info-text" id="paginationRangeText">Showing 0–0 of 0 records</div>
+                <div class="pagination-controls" id="paginationControls"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- RECORD DETAIL MODAL -->
+    <div id="recordDetailModal" class="modal-backdrop" onclick="handleBackdropClick(event, 'recordDetailModal')">
+        <div class="modal-card">
+            <div class="modal-header-clean">
+                <h3 style="font-size:1.15rem; color:var(--primary);" id="detailModalTitle">Record Details</h3>
+                <button type="button" class="btn-close-modal" onclick="closeModal('recordDetailModal')">&times;</button>
+            </div>
+            <div class="modal-body-scroll" id="detailModalBody"></div>
+            <div class="modal-footer-clean" id="detailModalFooter"></div>
+        </div>
+    </div>
+
+    <!-- ACTION CONFIRMATION MODAL -->
+    <div id="confirmActionModal" class="modal-backdrop" onclick="handleBackdropClick(event, 'confirmActionModal')">
+        <div class="confirm-dialog-wrap">
+            <div class="confirm-icon-circle" id="confirmDialogIcon">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <h3 class="confirm-title" id="confirmDialogTitle">Confirm Action</h3>
+            <p class="confirm-message" id="confirmDialogMessage">Are you sure you want to proceed?</p>
+            <div class="confirm-actions">
+                <button type="button" class="btn-dialog-cancel" onclick="closeModal('confirmActionModal')">Cancel</button>
+                <button type="button" class="btn-dialog-confirm" id="btnConfirmActionSubmit">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toastAlert" class="toast-notification">
+        <i id="toastIcon" class="fa-solid fa-circle-info"></i>
+        <span id="toastMessage">Notification message</span>
+    </div>
+
+    <script>
+        let allRecords = [];
+        let filteredRecords = [];
+        let currentStatusFilter = '';
+        let currentCategoryFilter = '';
+        let currentPage = 1;
+        let pageSize = 25;
+        let pendingAction = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Read URL query params
+            const params = new URLSearchParams(window.location.search);
+            const statusParam = params.get('status') || '';
+            const categoryParam = params.get('category') || '';
+
+            // Check if route has specific status default
+            const pathname = window.location.pathname;
+            if (pathname.includes('pending-records')) {
+                currentStatusFilter = 'Pending';
+            } else if (pathname.includes('approved-records')) {
+                currentStatusFilter = 'Approved';
+            } else if (pathname.includes('rejected-records')) {
+                currentStatusFilter = 'Rejected';
+            } else if (statusParam) {
+                currentStatusFilter = statusParam;
+            } else {
+                currentStatusFilter = 'Pending'; // Default to Pending if opened directly
+            }
+
+            if (categoryParam) {
+                currentCategoryFilter = categoryParam;
+            }
+
+            updateStatusPillUI();
+            updateCategoryTabUI();
+            initFilterListeners();
+            await loadAllRecords();
+        });
+
+        function initFilterListeners() {
+            const searchInput = document.getElementById('filterSearchQuery');
+            const bloodSelect = document.getElementById('filterBloodGroup');
+            const cityInput = document.getElementById('filterCity');
+
+            if (searchInput) searchInput.addEventListener('input', applyFilters);
+            if (bloodSelect) bloodSelect.addEventListener('change', applyFilters);
+            if (cityInput) cityInput.addEventListener('input', applyFilters);
+        }
+
+        function updateStatusPillUI() {
+            document.querySelectorAll('.status-pill-btn').forEach(btn => btn.classList.remove('active'));
+            const norm = currentStatusFilter.toLowerCase();
+            const heading = document.getElementById('headingTitleText');
+            const breadcrumb = document.getElementById('breadcrumbCurrentPage');
+
+            if (norm === 'pending') {
+                document.getElementById('statusTabPending').classList.add('active');
+                if (heading) heading.textContent = 'Pending Approvals';
+                if (breadcrumb) breadcrumb.textContent = 'Pending Approvals';
+            } else if (norm === 'approved') {
+                document.getElementById('statusTabApproved').classList.add('active');
+                if (heading) heading.textContent = 'Approved Records';
+                if (breadcrumb) breadcrumb.textContent = 'Approved Records';
+            } else if (norm === 'rejected') {
+                document.getElementById('statusTabRejected').classList.add('active');
+                if (heading) heading.textContent = 'Rejected Records';
+                if (breadcrumb) breadcrumb.textContent = 'Rejected Records';
+            } else {
+                document.getElementById('statusTabAll').classList.add('active');
+                if (heading) heading.textContent = 'All Records Management';
+                if (breadcrumb) breadcrumb.textContent = 'All Records';
+            }
+        }
+
+        function updateCategoryTabUI() {
+            document.querySelectorAll('.cat-tab-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === currentCategoryFilter) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function selectStatusTab(status) {
+            currentStatusFilter = status;
+            updateStatusPillUI();
+            // Update URL without full refresh
+            const url = new URL(window.location);
+            if (status) {
+                url.searchParams.set('status', status);
+            } else {
+                url.searchParams.delete('status');
+            }
+            window.history.replaceState({}, '', url);
+            applyFilters();
+        }
+
+        function selectCategoryTab(category) {
+            currentCategoryFilter = category;
+            updateCategoryTabUI();
+            applyFilters();
+        }
+
+        async function loadAllRecords() {
+            try {
+                const [donorRes, bloodRes, receiverRes, reqRes] = await Promise.all([
+                    fetch('/api/admin/donors'),
+                    fetch('/api/admin/blood-donors'),
+                    fetch('/api/admin/receivers'),
+                    fetch('/api/admin/blood-requests')
+                ]);
+
+                const donorData = await donorRes.json();
+                const bloodData = await bloodRes.json();
+                const receiverData = await receiverRes.json();
+                const reqData = await reqRes.json();
+
+                const rawDonors = donorData.success ? donorData.donors || [] : [];
+                const rawBloodDonors = bloodData.success ? bloodData.blood_donors || [] : [];
+                const rawReceivers = receiverData.success ? receiverData.receivers || [] : [];
+                const rawBloodRequests = reqData.success ? reqData.requests || [] : [];
+
+                // Normalize records
+                allRecords = [
+                    ...rawDonors.map(d => ({
+                        id: d.id,
+                        code: d.donor_id || `#OD-${d.id}`,
+                        type: 'donors',
+                        typeLabel: 'Organ Donor',
+                        badgeClass: 'cat-badge-organ-donor',
+                        icon: 'fa-heart',
+                        name: d.full_name || 'Anonymous',
+                        contact: d.phone || d.email || '-',
+                        phone: d.phone || '',
+                        email: d.email || '',
+                        bloodGroup: d.blood_group || '-',
+                        detailPrimary: d.organ_type ? `Organs: ${d.organ_type}` : `Blood: ${d.blood_group || '-'}`,
+                        location: d.city || 'Tamil Nadu',
+                        date: d.created_at ? d.created_at.substring(0, 10) : '-',
+                        status: (d.status || 'Pending').trim(),
+                        raw: d
+                    })),
+                    ...rawBloodDonors.map(b => ({
+                        id: b.id,
+                        code: b.blood_donor_id || `#BD-${b.id}`,
+                        type: 'blood_donors',
+                        typeLabel: 'Blood Donor',
+                        badgeClass: 'cat-badge-blood-donor',
+                        icon: 'fa-droplet',
+                        name: b.full_name || 'Anonymous',
+                        contact: b.phone || b.email || '-',
+                        phone: b.phone || '',
+                        email: b.email || '',
+                        bloodGroup: b.blood_group || '-',
+                        detailPrimary: `Blood Group: ${b.blood_group || '-'}`,
+                        location: b.city || 'Tamil Nadu',
+                        date: b.created_at ? b.created_at.substring(0, 10) : '-',
+                        status: (b.status || 'Pending').trim(),
+                        raw: b
+                    })),
+                    ...rawReceivers.map(r => ({
+                        id: r.id,
+                        code: r.receiver_id || `#RC-${r.id}`,
+                        type: 'receivers',
+                        typeLabel: 'Receiver',
+                        badgeClass: 'cat-badge-receiver',
+                        icon: 'fa-users',
+                        name: r.name || 'Patient',
+                        contact: r.phone || r.email || '-',
+                        phone: r.phone || '',
+                        email: r.email || '',
+                        bloodGroup: r.blood_group || '-',
+                        detailPrimary: r.needed_organ ? `Needed: ${r.needed_organ}` : `Blood: ${r.blood_group || '-'}`,
+                        location: r.city || r.hospital_name || 'Tamil Nadu',
+                        date: r.created_at ? r.created_at.substring(0, 10) : '-',
+                        status: (r.status || 'Pending').trim(),
+                        raw: r
+                    })),
+                    ...rawBloodRequests.map(q => ({
+                        id: q.id,
+                        code: q.request_id || `#BR-${q.id}`,
+                        type: 'blood_requests',
+                        typeLabel: 'Blood Request',
+                        badgeClass: 'cat-badge-blood-request',
+                        icon: 'fa-truck-medical',
+                        name: q.patient_name || 'Patient',
+                        contact: q.contact_number || '-',
+                        phone: q.contact_number || '',
+                        email: '',
+                        bloodGroup: q.blood_group || '-',
+                        detailPrimary: `Blood: ${q.blood_group || '-'} (${q.units_needed || 1} units)`,
+                        location: q.hospital_name || q.city || 'Emergency Dept',
+                        date: q.created_at ? q.created_at.substring(0, 10) : '-',
+                        status: (q.status || 'Pending').trim(),
+                        raw: q
+                    }))
+                ];
+
+                // Sort by ID descending
+                allRecords.sort((a, b) => b.id - a.id);
+
+                updateGlobalCounts();
+                applyFilters();
+            } catch (e) {
+                console.error('Error loading records:', e);
+                showToast('Unable to fetch database records', 'error');
+                showEmptyState('Network error connecting to Admin API');
+            }
+        }
+
+        function updateGlobalCounts() {
+            const pending = allRecords.filter(r => r.status.toLowerCase() === 'pending').length;
+            const approved = allRecords.filter(r => r.status.toLowerCase() === 'approved').length;
+            const rejected = allRecords.filter(r => r.status.toLowerCase() === 'rejected').length;
+            const total = allRecords.length;
+
+            document.getElementById('statPendingCount').textContent = pending;
+            document.getElementById('statApprovedCount').textContent = approved;
+            document.getElementById('statRejectedCount').textContent = rejected;
+            document.getElementById('statTotalCount').textContent = total;
+
+            document.getElementById('badgePendingCount').textContent = pending;
+            document.getElementById('badgeApprovedCount').textContent = approved;
+            document.getElementById('badgeRejectedCount').textContent = rejected;
+            document.getElementById('badgeAllCount').textContent = total;
+
+            document.getElementById('totalRecordCount').textContent = total;
+        }
+
+        function applyFilters() {
+            const query = (document.getElementById('filterSearchQuery').value || '').trim().toLowerCase();
+            const blood = (document.getElementById('filterBloodGroup').value || '').trim();
+            const city = (document.getElementById('filterCity').value || '').trim().toLowerCase();
+
+            filteredRecords = allRecords.filter(r => {
+                // Status Filter
+                if (currentStatusFilter && r.status.toLowerCase() !== currentStatusFilter.toLowerCase()) {
+                    return false;
+                }
+
+                // Category Filter
+                if (currentCategoryFilter && r.type !== currentCategoryFilter) {
+                    return false;
+                }
+
+                // Blood Filter
+                if (blood && r.bloodGroup !== blood) {
+                    return false;
+                }
+
+                // City Filter
+                if (city && !r.location.toLowerCase().includes(city)) {
+                    return false;
+                }
+
+                // Text Query
+                if (query) {
+                    const textContent = `${r.code} ${r.name} ${r.phone} ${r.email} ${r.bloodGroup} ${r.detailPrimary} ${r.location}`.toLowerCase();
+                    if (!textContent.includes(query)) return false;
+                }
+
+                return true;
+            });
+
+            currentPage = 1;
+            renderRecordsTable();
+        }
+
+        function resetFilters() {
+            document.getElementById('filterSearchQuery').value = '';
+            document.getElementById('filterBloodGroup').value = '';
+            document.getElementById('filterCity').value = '';
+            currentCategoryFilter = '';
+            updateCategoryTabUI();
+            applyFilters();
+            showToast('Filters reset', 'info');
+        }
+
+        function changePageSize(val) {
+            pageSize = parseInt(val, 10) || 25;
+            currentPage = 1;
+            renderRecordsTable();
+        }
+
+        function renderRecordsTable() {
+            const tbody = document.getElementById('recordsTableBody');
+            const total = filteredRecords.length;
+            document.getElementById('visibleRecordCount').textContent = total;
+
+            if (total === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="empty-state-wrap">
+                            <i class="fa-solid fa-folder-open empty-state-icon"></i>
+                            <div class="empty-state-title">No matching records found</div>
+                            <p>Try changing the status tab, category, or search filters.</p>
+                        </td>
+                    </tr>
+                `;
+                renderPagination(0);
+                return;
+            }
+
+            const start = (currentPage - 1) * pageSize;
+            const end = Math.min(start + pageSize, total);
+            const pageData = filteredRecords.slice(start, end);
+
+            tbody.innerHTML = pageData.map(r => {
+                const statusClass = r.status.toLowerCase() === 'approved' 
+                    ? 'status-approved' 
+                    : (r.status.toLowerCase() === 'rejected' ? 'status-rejected' : 'status-pending');
+
+                let actionsHtml = `
+                    <button type="button" class="btn-act btn-act-view" onclick="openRecordDetails('${r.type}', ${r.id})" title="View Details">
+                        <i class="fa-solid fa-eye"></i> View
+                    </button>
+                `;
+
+                if (r.status.toLowerCase() !== 'approved') {
+                    actionsHtml += `
+                        <button type="button" class="btn-act btn-act-approve" onclick="confirmStatusChange('${r.type}', ${r.id}, 'Approve', '${escapeHtml(r.name)}')" title="Approve">
+                            <i class="fa-solid fa-check"></i> Approve
+                        </button>
+                    `;
+                }
+
+                if (r.status.toLowerCase() !== 'rejected') {
+                    actionsHtml += `
+                        <button type="button" class="btn-act btn-act-reject" onclick="confirmStatusChange('${r.type}', ${r.id}, 'Reject', '${escapeHtml(r.name)}')" title="Reject">
+                            <i class="fa-solid fa-ban"></i> Reject
+                        </button>
+                    `;
+                }
+
+                actionsHtml += `
+                    <button type="button" class="btn-act btn-act-delete" onclick="confirmDeleteRecord('${r.type}', ${r.id}, '${escapeHtml(r.name)}')" title="Delete">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                `;
+
+                return `
+                    <tr>
+                        <td style="font-family:monospace; font-weight:700; color:var(--brand-blue);">${escapeHtml(r.code)}</td>
+                        <td>
+                            <span class="cat-badge ${r.badgeClass}">
+                                <i class="fa-solid ${r.icon}"></i> ${escapeHtml(r.typeLabel)}
+                            </span>
+                        </td>
+                        <td style="font-weight:700; color:var(--primary);">${escapeHtml(r.name)}</td>
+                        <td>
+                            <span style="font-weight:600;">${escapeHtml(r.detailPrimary)}</span>
+                        </td>
+                        <td>
+                            <div style="display:flex; flex-direction:column; font-size:0.78rem;">
+                                ${r.phone ? `<span><i class="fa-solid fa-phone" style="font-size:0.68rem; color:var(--text-muted);"></i> ${escapeHtml(r.phone)}</span>` : ''}
+                                ${r.email ? `<span><i class="fa-solid fa-envelope" style="font-size:0.68rem; color:var(--text-muted);"></i> ${escapeHtml(r.email)}</span>` : ''}
+                                ${!r.phone && !r.email ? '<span class="text-muted">-</span>' : ''}
+                            </div>
+                        </td>
+                        <td>${escapeHtml(r.location)}</td>
+                        <td>${escapeHtml(r.date)}</td>
+                        <td>
+                            <span class="status-badge ${statusClass}">
+                                <span class="status-dot"></span>
+                                ${escapeHtml(r.status)}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-btn-group">
+                                ${actionsHtml}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            renderPagination(total);
+        }
+
+        function renderPagination(total) {
+            const paginationContainer = document.getElementById('paginationControls');
+            const rangeText = document.getElementById('paginationRangeText');
+
+            if (total === 0) {
+                rangeText.textContent = 'Showing 0–0 of 0 records';
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            const totalPages = Math.ceil(total / pageSize) || 1;
+            const start = (currentPage - 1) * pageSize + 1;
+            const end = Math.min(currentPage * pageSize, total);
+            rangeText.textContent = `Showing ${start}–${end} of ${total} records`;
+
+            let html = `
+                <button type="button" class="btn-page" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            `;
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `
+                        <button type="button" class="btn-page ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">
+                            ${i}
+                        </button>
+                    `;
+                }
+            }
+
+            html += `
+                <button type="button" class="btn-page" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            `;
+
+            paginationContainer.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredRecords.length / pageSize) || 1;
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderRecordsTable();
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        }
+
+        // DETAIL MODAL
+        function openRecordDetails(type, id) {
+            const record = allRecords.find(r => r.type === type && r.id === id);
+            if (!record) return;
+
+            const raw = record.raw;
+            document.getElementById('detailModalTitle').innerHTML = `
+                <span class="cat-badge ${record.badgeClass}" style="font-size:0.85rem; margin-right:0.5rem;">
+                    <i class="fa-solid ${record.icon}"></i> ${record.typeLabel}
+                </span>
+                ${escapeHtml(record.code)} - ${escapeHtml(record.name)}
+            `;
+
+            let bodyHtml = `
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; background:#f8fafc; padding:1.25rem; border-radius:10px; border:1px solid #e2e8f0;">
+                    <div><small style="color:#64748b; font-weight:600;">FULL NAME</small><div style="font-weight:700; font-size:1rem; color:#0f172a;">${escapeHtml(record.name)}</div></div>
+                    <div><small style="color:#64748b; font-weight:600;">CURRENT STATUS</small><div><span class="status-badge ${record.status.toLowerCase() === 'approved' ? 'status-approved' : record.status.toLowerCase() === 'rejected' ? 'status-rejected' : 'status-pending'}">${escapeHtml(record.status)}</span></div></div>
+                    <div><small style="color:#64748b; font-weight:600;">BLOOD GROUP</small><div style="font-weight:700; color:#e11d48;">${escapeHtml(record.bloodGroup)}</div></div>
+                    <div><small style="color:#64748b; font-weight:600;">LOCATION</small><div style="font-weight:600;">${escapeHtml(record.location)}</div></div>
+                    <div><small style="color:#64748b; font-weight:600;">PHONE</small><div>${escapeHtml(record.phone || 'N/A')}</div></div>
+                    <div><small style="color:#64748b; font-weight:600;">EMAIL</small><div>${escapeHtml(record.email || 'N/A')}</div></div>
+                    <div style="grid-column:1/-1;"><small style="color:#64748b; font-weight:600;">DETAILS / SPECIFICATION</small><div style="font-weight:600; color:#0284c7;">${escapeHtml(record.detailPrimary)}</div></div>
+                </div>
+            `;
+
+            if (raw.medical_history || raw.address) {
+                bodyHtml += `
+                    <div style="background:#f8fafc; padding:1rem; border-radius:10px; border:1px solid #e2e8f0;">
+                        ${raw.address ? `<div style="margin-bottom:0.5rem;"><small style="color:#64748b; font-weight:600;">ADDRESS</small><div>${escapeHtml(raw.address)}</div></div>` : ''}
+                        ${raw.medical_history ? `<div><small style="color:#64748b; font-weight:600;">MEDICAL NOTES</small><div>${escapeHtml(raw.medical_history)}</div></div>` : ''}
+                    </div>
+                `;
+            }
+
+            document.getElementById('detailModalBody').innerHTML = bodyHtml;
+
+            let footerHtml = `
+                <button type="button" class="btn-filter-reset" onclick="closeModal('recordDetailModal')">Close</button>
+            `;
+
+            if (record.status.toLowerCase() !== 'approved') {
+                footerHtml += `
+                    <button type="button" class="btn-act btn-act-approve" style="padding:0.55rem 1rem;" onclick="closeModal('recordDetailModal'); confirmStatusChange('${record.type}', ${record.id}, 'Approve', '${escapeHtml(record.name)}');">
+                        <i class="fa-solid fa-check"></i> Approve Record
+                    </button>
+                `;
+            }
+
+            if (record.status.toLowerCase() !== 'rejected') {
+                footerHtml += `
+                    <button type="button" class="btn-act btn-act-reject" style="padding:0.55rem 1rem;" onclick="closeModal('recordDetailModal'); confirmStatusChange('${record.type}', ${record.id}, 'Reject', '${escapeHtml(record.name)}');">
+                        <i class="fa-solid fa-ban"></i> Reject Record
+                    </button>
+                `;
+            }
+
+            document.getElementById('detailModalFooter').innerHTML = footerHtml;
+            openModal('recordDetailModal');
+        }
+
+        // CONFIRM ACTIONS
+        function confirmStatusChange(type, id, status, name) {
+            pendingAction = { action: 'status', type: type, id: id, status: status };
+            const isApprove = status.toLowerCase() === 'approve';
+            const iconWrap = document.getElementById('confirmDialogIcon');
+            const title = document.getElementById('confirmDialogTitle');
+            const msg = document.getElementById('confirmDialogMessage');
+            const btn = document.getElementById('btnConfirmActionSubmit');
+
+            if (isApprove) {
+                iconWrap.className = 'confirm-icon-circle confirm-icon-approve';
+                iconWrap.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                title.textContent = 'Approve Record';
+                msg.textContent = `Are you sure you want to approve "${name}"? This record will be marked as Approved in the system.`;
+                btn.className = 'btn-dialog-confirm btn-confirm-approve';
+                btn.textContent = 'Confirm Approval';
+            } else {
+                iconWrap.className = 'confirm-icon-circle confirm-icon-reject';
+                iconWrap.innerHTML = '<i class="fa-solid fa-ban"></i>';
+                title.textContent = 'Reject Record';
+                msg.textContent = `Are you sure you want to reject "${name}"? This record status will be updated to Rejected.`;
+                btn.className = 'btn-dialog-confirm btn-confirm-reject';
+                btn.textContent = 'Confirm Rejection';
+            }
+
+            btn.onclick = executePendingAction;
+            openModal('confirmActionModal');
+        }
+
+        function confirmDeleteRecord(type, id, name) {
+            pendingAction = { action: 'delete', type: type, id: id };
+            const iconWrap = document.getElementById('confirmDialogIcon');
+            const title = document.getElementById('confirmDialogTitle');
+            const msg = document.getElementById('confirmDialogMessage');
+            const btn = document.getElementById('btnConfirmActionSubmit');
+
+            iconWrap.className = 'confirm-icon-circle confirm-icon-delete';
+            iconWrap.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+            title.textContent = 'Permanently Delete Record';
+            msg.textContent = `Are you sure you want to permanently delete the record for "${name}"? This action cannot be undone.`;
+            btn.className = 'btn-dialog-confirm btn-confirm-delete';
+            btn.textContent = 'Confirm Delete';
+
+            btn.onclick = executePendingAction;
+            openModal('confirmActionModal');
+        }
+
+        async function executePendingAction() {
+            if (!pendingAction) return;
+            const btn = document.getElementById('btnConfirmActionSubmit');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+
+            try {
+                let endpoint = '';
+                const typeEndpointMap = {
+                    'donors': '/api/admin/donors',
+                    'blood_donors': '/api/admin/blood-donors',
+                    'receivers': '/api/admin/receivers',
+                    'blood_requests': '/api/admin/blood-requests'
+                };
+
+                const base = typeEndpointMap[pendingAction.type];
+
+                if (pendingAction.action === 'status') {
+                    const statusStr = pendingAction.status === 'Approve' ? 'Approved' : 'Rejected';
+                    const res = await fetch(`${base}/${pendingAction.id}/status`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status: statusStr })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        showToast(`Record updated to ${statusStr} successfully!`, 'success');
+                        closeModal('confirmActionModal');
+                        await loadAllRecords();
+                    } else {
+                        showToast(data.message || 'Status update failed', 'error');
+                    }
+                } else if (pendingAction.action === 'delete') {
+                    const res = await fetch(`${base}/${pendingAction.id}`, { method: 'DELETE' });
+                    const data = await res.json();
+                    if (data.success) {
+                        showToast('Record deleted successfully', 'success');
+                        closeModal('confirmActionModal');
+                        await loadAllRecords();
+                    } else {
+                        showToast(data.message || 'Delete failed', 'error');
+                    }
+                }
+            } catch (e) {
+                console.error('Error executing action:', e);
+                showToast('A network error occurred', 'error');
+            } finally {
+                btn.disabled = false;
+                pendingAction = null;
+            }
+        }
+
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function handleBackdropClick(e, id) {
+            if (e.target === document.getElementById(id)) closeModal(id);
+        }
+
+        async function adminLogout() {
+            try {
+                await fetch('/api/admin/logout', { method: 'POST' });
+            } catch (e) {
+                console.warn('Logout error', e);
+            }
+            sessionStorage.removeItem('odms_admin_logged_in');
+            window.location.href = '/';
+        }
+
+        function showToast(msg, type = 'info') {
+            const toast = document.getElementById('toastAlert');
+            const icon = document.getElementById('toastIcon');
+            const message = document.getElementById('toastMessage');
+
+            toast.className = 'toast-notification show';
+            if (type === 'success') {
+                toast.classList.add('toast-success');
+                icon.className = 'fa-solid fa-circle-check';
+            } else if (type === 'error') {
+                toast.classList.add('toast-error');
+                icon.className = 'fa-solid fa-circle-exclamation';
+            } else {
+                toast.classList.add('toast-info');
+                icon.className = 'fa-solid fa-circle-info';
+            }
+
+            message.textContent = msg;
+            setTimeout(() => { toast.classList.remove('show'); }, 3500);
+        }
+
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeSaver - Organ and Blood Donation Management System (தமிழ் / English)</title>
+    <meta name="description" content="State-of-the-art Organ and Blood Donation Management System with AI-powered matching, dual language support (Tamil + English), and instant digital donor cards.">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../static/css/style.css?v=2.0">
+    <link rel="stylesheet" href="/static/css/style.css?v=2.0">
+</head>
+<body>
+
+    <!-- ==========================================================
+         TOP NAVIGATION BAR
+         ========================================================== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-brand" data-tab="home">
+                <div class="brand-icon">♥</div>
+                <span data-i18n="nav_brand">LifeSaver Network</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active" data-tab="home" data-i18n="nav_home">Home</a></li>
+                <li><a href="#organ-donor" class="nav-link" data-tab="organ-donor" data-i18n="nav_organ_donor">Organ Donation</a></li>
+                <li><a href="#blood-donor" class="nav-link" data-tab="blood-donor" data-i18n="nav_blood_donor">Blood Donation</a></li>
+                <li><a href="#receiver" class="nav-link" data-tab="receiver" data-i18n="nav_receiver">Find Organ</a></li>
+                <li><a href="#blood-request" class="nav-link" data-tab="blood-request" data-i18n="nav_blood_request">Blood Request</a></li>
+            </ul>
+
+            <!-- Header Action Controls -->
+            <div class="nav-actions">
+                <a href="/admin/signin" class="nav-login-btn" data-i18n="nav_admin_login" style="display:inline-flex; align-items:center; justify-content:center; text-decoration:none;">Admin Login</a>
+
+                <!-- Notifications Bell -->
+                <button class="notif-btn" data-tab="notifications" data-i18n-title="nav_notifications" title="System Notifications">
+                    🔔
+                    <span class="notif-badge" id="navNotifBadge" style="display:none;">0</span>
+                </button>
+
+                <!-- Professional Language Selector Dropdown -->
+                <div class="lang-selector-wrap" title="Select Language">
+                    <span class="lang-icon" aria-hidden="true">🌐</span>
+                    <select id="languageSelect" class="lang-select-dropdown" onchange="setLanguage(this.value)" aria-label="Select Language">
+                        <option value="en">English</option>
+                        <option value="ta">தமிழ்</option>
+                    </select>
+                </div>
+
+                <!-- Mobile Hamburger Menu Button -->
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+                    ☰
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==========================================================
+         MAIN CONTENT CONTAINER (SPA Tabs)
+         ========================================================== -->
+    <main class="main-wrapper">
+
+        <!-- ==========================================================
+             TAB 1: HOME & HERO DASHBOARD
+             ========================================================== -->
+        <section id="tab-home" class="page-tab active">
+            <div class="home-page-shell">
+                <section class="hero-modern">
+                    <div class="hero-modern__content">
+                        <span class="eyebrow-pill" data-i18n="home_eyebrow">Trusted healthcare network</span>
+                        <h1 data-i18n="home_hero_title">Every Donation Can Save a Life</h1>
+                        <p data-i18n="home_hero_desc">
+                            Connecting Organ Donors, Blood Donors, Patients and Hospitals through one secure platform.
+                        </p>
+                        <div class="hero-modern__actions">
+                            <button class="btn btn-primary" data-tab="organ-donor" data-i18n="home_hero_cta_primary">Become an Organ Donor</button>
+                            <button class="btn btn-secondary" data-tab="receiver" data-i18n="home_hero_cta_secondary">Find an Organ</button>
+                        </div>
+                    </div>
+
+                    <div class="hero-modern__visual" aria-label="Healthcare matching illustration">
+                        <div class="visual-card visual-card--main">
+                            <div class="pulse-ring pulse-ring--one"></div>
+                            <div class="pulse-ring pulse-ring--two"></div>
+                            <div class="heart-core">❤</div>
+                            <div class="badge badge--top" data-i18n="badge_verified_care">Verified Care</div>
+                            <div class="badge badge--bottom" data-i18n="badge_247_support">24/7 Support</div>
+                        </div>
+                        <div class="mini-panel mini-panel--left">
+                            <span data-i18n="mini_organ_match">Organ Match</span>
+                            <strong data-i18n="mini_organ_avail">92% availability</strong>
+                        </div>
+                        <div class="mini-panel mini-panel--right">
+                            <span data-i18n="mini_blood_units">Blood Units</span>
+                            <strong data-i18n="mini_blood_week">+1,245 this week</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="quick-actions section-block">
+                    <div class="section-heading">
+                        <span class="section-kicker" data-i18n="home_quick_kicker">Quick actions</span>
+                        <h2 data-i18n="home_quick_title">Choose how you want to help</h2>
+                    </div>
+
+                    <div class="action-grid">
+                        <article class="action-card" data-tab="organ-donor">
+                            <div class="card-icon-wrap icon-organ">🫀</div>
+                            <h3 data-i18n="home_action_organ">Organ Donation</h3>
+                            <p data-i18n="home_action_organ_desc">Register to donate life-saving organs and support waiting families with a secure pledge.</p>
+                            <button type="button" class="text-link" data-i18n="home_action_organ_cta">Get started</button>
+                        </article>
+
+                        <article class="action-card" data-tab="blood-donor">
+                            <div class="card-icon-wrap icon-blood">🩸</div>
+                            <h3 data-i18n="home_action_blood">Blood Donation</h3>
+                            <p data-i18n="home_action_blood_desc">Join a trusted blood donor network and respond to urgent emergency requests when needed.</p>
+                            <button type="button" class="text-link" data-i18n="home_action_blood_cta">Donate now</button>
+                        </article>
+
+                        <article class="action-card" data-tab="receiver">
+                            <div class="card-icon-wrap icon-find">🔎</div>
+                            <h3 data-i18n="home_action_find">Find an Organ</h3>
+                            <p data-i18n="home_action_find_desc">Search for suitable donor matches and access the right medical support pathway quickly.</p>
+                            <button type="button" class="text-link" data-i18n="home_action_find_cta">Search matches</button>
+                        </article>
+
+                        <article class="action-card" data-tab="blood-request">
+                            <div class="card-icon-wrap icon-alert">🚨</div>
+                            <h3 data-i18n="home_action_request">Blood Request</h3>
+                            <p data-i18n="home_action_request_desc">Post a critical request and reach verified donors faster during urgent life-saving moments.</p>
+                            <button type="button" class="text-link" data-i18n="home_action_request_cta">Submit request</button>
+                        </article>
+                    </div>
+                </section>
+
+                <footer class="home-footer">
+                    © 2026 Organ & Blood Donation Management System. All rights reserved.
+                </footer>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             TAB 2: ORGAN DONOR REGISTRATION MODULE (Requirement #2 & #3)
+             ========================================================== -->
+        <section id="tab-organ-donor" class="page-tab">
+            <div class="page-back-nav">
+                <button type="button" class="btn-back" onclick="navigateBack()" data-i18n="btn_back">← Back to Home</button>
+            </div>
+            <div class="form-card">
+                <div class="form-header">
+                    <div>
+                        <h2 class="form-title" data-i18n="action_organ_title">Organ Donor Pledge Registration</h2>
+                        <p class="form-subtitle">Join the prestigious national pledge registry to save human lives.</p>
+                    </div>
+                </div>
+
+                <form id="organDonorForm" enctype="multipart/form-data">
+                    <div class="form-grid">
+                        <!-- 1. Full Name -->
+                        <div class="form-group">
+                            <label class="form-label" for="organ_name">
+                                <span data-i18n="form_full_name">Full Name</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="organ_name" name="full_name" class="form-control" placeholder="Enter full name" autocomplete="name" required />
+                        </div>
+
+                        <!-- 2. Age -->
+                        <div class="form-group">
+                            <label class="form-label" for="organ_age">
+                                <span data-i18n="form_age">Age</span> (18 - 100) <span class="req-star">*</span>
+                            </label>
+                            <input type="number" id="organ_age" name="age" class="form-control" min="18" max="100" placeholder="Enter age (18-100)" required />
+                        </div>
+
+                        <!-- 3. Gender -->
+                        <div class="form-group">
+                            <label class="form-label" for="organ_gender">
+                                <span data-i18n="form_gender">Gender</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="organ_gender" name="gender" class="form-select" required>
+                                <option value="" data-i18n="form_gender_select">Select Gender</option>
+                                <option value="Male" selected data-i18n="form_male">Male</option>
+                                <option value="Female" data-i18n="form_female">Female</option>
+                                <option value="Other" data-i18n="form_other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- 4. Phone Number -->
+                        <div class="form-group">
+                            <label class="form-label" for="organ_phone">
+                                <span data-i18n="form_phone">Phone Number (10 digits)</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="tel" id="organ_phone" name="phone" class="form-control" placeholder="Enter 10-digit mobile number" maxlength="10" autocomplete="tel" required />
+                        </div>
+
+                        <!-- 5. Blood Group -->
+                        <div class="form-group">
+                            <label class="form-label" for="organ_blood_group">
+                                <span data-i18n="form_blood_group">Blood Group</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="organ_blood_group" name="blood_group" class="form-select" required>
+                                <option value="" data-i18n="form_select_bg">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+
+                        <!-- 6. Organ Type -->
+                        <div class="form-group full-width" style="margin-bottom: 0.5rem;" id="organ_type_group">
+                            <label class="form-label">
+                                <span data-i18n="organ_type_title">Select Organ(s) to Pledge</span> <span class="req-star">*</span>
+                            </label>
+                            <div class="checkbox-pills-grid" id="organTypesGrid">
+                                <label class="pill-check-label">
+                                    <input type="checkbox" name="organ_types" value="Kidney" id="organ_type_kidney" />
+                                    <span data-i18n="organ_kidney">Kidney (சிறுநீரகம்)</span>
+                                </label>
+                                <label class="pill-check-label">
+                                    <input type="checkbox" name="organ_types" value="Liver" id="organ_type_liver" />
+                                    <span data-i18n="organ_liver">Liver (கல்லீரல்)</span>
+                                </label>
+                                <label class="pill-check-label">
+                                    <input type="checkbox" name="organ_types" value="Heart" id="organ_type_heart" />
+                                    <span data-i18n="organ_heart">Heart (இதயம்)</span>
+                                </label>
+                                <label class="pill-check-label">
+                                    <input type="checkbox" name="organ_types" value="Lung" id="organ_type_lung" />
+                                    <span data-i18n="organ_lung">Lung (நுரையீரல்)</span>
+                                </label>
+                                <label class="pill-check-label">
+                                    <input type="checkbox" name="organ_types" value="Pancreas" id="organ_type_pancreas" />
+                                    <span data-i18n="organ_pancreas">Pancreas (கணையம்)</span>
+                                </label>
+                                <label class="pill-check-label">
+                                    <input type="checkbox" name="organ_types" value="Eye" id="organ_type_eye" />
+                                    <span data-i18n="organ_eye">Eye / Cornea (கண்)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 7. Address -->
+                        <div class="form-group full-width">
+                            <label class="form-label" for="organ_address">
+                                <span data-i18n="form_address">Full Street Address</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="organ_address" name="address" class="form-control" placeholder="Enter full street address" autocomplete="street-address" required />
+                        </div>
+
+                        <!-- 8. City -->
+                        <div class="form-group">
+                            <label class="form-label" for="organ_city">
+                                <span data-i18n="form_city">City / District</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="organ_city" name="city" class="form-control city-autocomplete" data-i18n-placeholder="form_city_placeholder" placeholder="Enter city / district" autocomplete="off" required />
+                        </div>
+
+                        <!-- 9. Medical History -->
+                        <div class="form-group full-width">
+                            <label class="form-label" for="organ_medical">
+                                <span data-i18n="form_medical_history">Medical History / Known Conditions</span>
+                            </label>
+                            <textarea id="organ_medical" name="medical_history" class="form-textarea" data-i18n-placeholder="form_med_placeholder" placeholder="Enter medical history or write None (Press Enter to move to next field)"></textarea>
+                        </div>
+
+                        <!-- 10. Availability Status -->
+                        <div class="form-group">
+                            <label class="form-label" for="organ_avail">
+                                <span data-i18n="form_avail_status">Availability Status</span>
+                            </label>
+                            <select id="organ_avail" name="availability_status" class="form-select">
+                                <option value="Available" data-i18n="form_status_available">Available (Immediate Readiness)</option>
+                                <option value="Pledged" data-i18n="form_status_pledged">Pledged for Future</option>
+                                <option value="Unavailable" data-i18n="form_status_unavailable">Temporarily Unavailable</option>
+                            </select>
+                        </div>
+
+                        <!-- 11. Donor Photo -->
+                        <div class="form-group full-width">
+                            <label class="form-label" for="organ_photo">
+                                <span data-i18n="form_photo">Donor Photo (for Official ID Card)</span>
+                            </label>
+                            <input type="file" id="organ_photo" name="photo" class="form-control" accept="image/jpeg,image/png,image/webp" />
+                        </div>
+
+                        <!-- 12. Email Address -->
+                        <div class="form-group full-width">
+                            <label class="form-label" for="organ_email">
+                                <span data-i18n="form_email">Email Address</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="email" id="organ_email" name="email" class="form-control" placeholder="Enter email address (Donor card will be emailed here)" autocomplete="email" required />
+                            <small style="color:var(--text-muted); font-size:0.78rem;">Your generated Donor Card PDF will be sent automatically to this email address.</small>
+                        </div>
+                    </div>
+
+                    <p style="font-size:0.82rem; color:var(--text-muted); margin: 1.5rem 0;" data-i18n="form_disclaimer">
+                        By registering, you confirm that all provided details are authentic and voluntary.
+                    </p>
+
+                    <!-- 13. Final Registration Submit Button -->
+                    <button type="submit" id="btnSubmitOrganDonor" class="btn btn-primary btn-full" style="width:100%;" data-i18n="form_btn_submit_organ">
+                        Complete Organ Pledge Registration
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             TAB 3: BLOOD DONOR REGISTRATION MODULE (Requirement #7)
+             ========================================================== -->
+        <section id="tab-blood-donor" class="page-tab">
+            <div class="page-back-nav">
+                <button type="button" class="btn-back" onclick="navigateBack()" data-i18n="btn_back">← Back to Home</button>
+            </div>
+            <div class="form-card">
+                <div class="form-header">
+                    <div>
+                        <h2 class="form-title" data-i18n="action_blood_title">Blood Donor Registration</h2>
+                        <p class="form-subtitle">Be the beacon of life for emergency trauma & surgical patients.</p>
+                    </div>
+                </div>
+
+                <form id="bloodDonorForm" enctype="multipart/form-data">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="bld_name">
+                                <span data-i18n="form_full_name">Full Name</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="bld_name" name="full_name" class="form-control" placeholder="Enter full name" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="bld_age">
+                                <span data-i18n="form_age">Age</span> (18 - 65) <span class="req-star">*</span>
+                            </label>
+                            <input type="number" id="bld_age" name="age" class="form-control" min="18" max="65" placeholder="Enter age" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="bld_gender">
+                                <span data-i18n="form_gender">Gender</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="bld_gender" name="gender" class="form-select" required>
+                                <option value="" data-i18n="form_gender_select">Select Gender</option>
+                                <option value="Male" data-i18n="form_male">Male</option>
+                                <option value="Female" data-i18n="form_female">Female</option>
+                                <option value="Other" data-i18n="form_other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="bld_phone">
+                                <span data-i18n="form_phone">Phone Number (10 digits)</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="tel" id="bld_phone" name="phone" class="form-control" placeholder="Enter phone number" maxlength="10" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="bld_email">
+                                <span data-i18n="form_email">Email Address</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="email" id="bld_email" name="email" class="form-control" placeholder="Enter email address" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="bld_group">
+                                <span data-i18n="form_blood_group">Blood Group</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="bld_group" name="blood_group" class="form-select" required>
+                                <option value="" data-i18n="form_select_bg">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="bld_last_date">
+                                <span data-i18n="bld_last_date">Last Donation Date</span>
+                            </label>
+                            <input type="date" id="bld_last_date" name="last_donation_date" class="form-control" />
+                            <small style="color:var(--text-muted); font-size:0.75rem;" data-i18n="bld_date_helper">
+                                90+ days gap required for eligibility.
+                            </small>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label" for="bld_address">
+                                <span data-i18n="form_address">Full Street Address</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="bld_address" name="address" class="form-control" placeholder="Enter full street address" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="bld_city">
+                                <span data-i18n="form_city">City / District</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="bld_city" name="city" class="form-control city-autocomplete" data-i18n-placeholder="form_city_placeholder" placeholder="Enter city / district" autocomplete="off" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="bld_avail">
+                                <span data-i18n="form_avail_status">Availability Status</span>
+                            </label>
+                            <select id="bld_avail" name="availability_status" class="form-select">
+                                <option value="Available" data-i18n="form_status_available">Available (Immediate Readiness)</option>
+                                <option value="Unavailable" data-i18n="form_status_unavailable">Temporarily Unavailable</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label" for="bld_photo">
+                                <span data-i18n="form_photo">Donor Photo</span>
+                            </label>
+                            <input type="file" id="bld_photo" name="photo" class="form-control" accept="image/jpeg,image/png,image/webp" />
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btnSubmitBloodDonor" class="btn btn-secondary" style="width:100%; margin-top:1.5rem;" data-i18n="form_btn_submit_blood">
+                        Register as Blood Donor
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             TAB 4: RECEIVER REGISTRATION MODULE (Requirement #5)
+             ========================================================== -->
+        <section id="tab-receiver" class="page-tab">
+            <div class="page-back-nav">
+                <button type="button" class="btn-back" onclick="navigateBack()" data-i18n="btn_back">← Back to Home</button>
+            </div>
+            <div class="form-card">
+                <div class="form-header">
+                    <div>
+                        <h2 class="form-title" data-i18n="rec_title">Organ Receiver Registration</h2>
+                        <p class="form-subtitle">Register clinical requirement with medical test reports for AI matching.</p>
+                    </div>
+                </div>
+
+                <form id="receiverForm" enctype="multipart/form-data">
+                    <div class="form-section-title" data-i18n="form_personal_info">1. Patient Details</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="rec_name">
+                                <span data-i18n="form_full_name">Patient Name</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="rec_name" name="name" class="form-control" placeholder="Enter patient name" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="rec_age">
+                                <span data-i18n="form_age">Age</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="number" id="rec_age" name="age" class="form-control" min="1" max="100" placeholder="Enter age" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="rec_gender">
+                                <span data-i18n="form_gender">Gender</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="rec_gender" name="gender" class="form-select" required>
+                                <option value="Male" data-i18n="form_male">Male</option>
+                                <option value="Female" data-i18n="form_female">Female</option>
+                                <option value="Other" data-i18n="form_other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section-title">2. Organ Requirement & Priority</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="rec_organ">
+                                <span data-i18n="rec_needed_organ">Needed Organ</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="rec_organ" name="needed_organ" class="form-select" required>
+                                <option value="" data-i18n="rec_select_organ">Select Needed Organ</option>
+                                <option value="Kidney">Kidney (சிறுநீரகம்)</option>
+                                <option value="Liver">Liver (கல்லீரல்)</option>
+                                <option value="Heart">Heart (இதயம்)</option>
+                                <option value="Lung">Lung (நுரையீரல்)</option>
+                                <option value="Pancreas">Pancreas (கணையம்)</option>
+                                <option value="Eye">Eye / Cornea (கண்)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="rec_bg">
+                                <span data-i18n="form_blood_group">Blood Group</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="rec_bg" name="blood_group" class="form-select" required>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="rec_em">
+                                <span data-i18n="rec_emergency_level">Emergency Level</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="rec_em" name="emergency_level" class="form-select" required>
+                                <option value="Critical" data-i18n="rec_em_critical">Critical (Immediate ICU Need)</option>
+                                <option value="High" selected data-i18n="rec_em_high">High (Urgent Priority)</option>
+                                <option value="Medium" data-i18n="rec_em_med">Medium (Under Observation)</option>
+                                <option value="Low" data-i18n="rec_em_low">Low (Stable)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="rec_city">
+                                <span data-i18n="form_city">City / District</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="rec_city" name="city" class="form-control city-autocomplete" data-i18n-placeholder="form_city_placeholder" placeholder="Enter city / district" autocomplete="off" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="rec_phone">
+                                <span data-i18n="form_phone">Patient Phone</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="tel" id="rec_phone" name="phone" class="form-control" placeholder="Enter phone number" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="rec_contact">
+                                <span data-i18n="rec_contact_person">Emergency Contact</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="tel" id="rec_contact" name="contact_number" class="form-control" placeholder="Enter emergency contact number" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="rec_email">
+                            <span data-i18n="form_email">Email Address</span> <span class="req-star">*</span>
+                        </label>
+                        <input type="email" id="rec_email" name="email" class="form-control" placeholder="Enter email address" required />
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="rec_address">
+                            <span data-i18n="form_address">Address</span> <span class="req-star">*</span>
+                        </label>
+                        <input type="text" id="rec_address" name="address" class="form-control" placeholder="Enter full address" required />
+                    </div>
+
+                    <!-- Medical Report Uploads -->
+                    <div class="form-section-title" data-i18n="rec_upload_title">4. Medical Reports Upload</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="rec_blood_test">Blood Test Report (PDF/IMG)</label>
+                            <input type="file" name="blood_test_report" class="form-control" accept=".pdf,.jpg,.jpeg,.png" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="rec_ecg">ECG Report (PDF/IMG)</label>
+                            <input type="file" name="ecg_report" class="form-control" accept=".pdf,.jpg,.jpeg,.png" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="rec_scan">Scan / CT / MRI Report (PDF/IMG)</label>
+                            <input type="file" name="scan_report" class="form-control" accept=".pdf,.jpg,.jpeg,.png" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="rec_cert">Doctor / Hospital Certificate</label>
+                            <input type="file" name="medical_certificate" class="form-control" accept=".pdf,.jpg,.jpeg,.png" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:1.5rem;" data-i18n="form_btn_submit_receiver">
+                        Submit Organ Requirement & Find Matches
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             TAB 5: URGENT BLOOD REQUEST MODULE (Requirement #8)
+             ========================================================== -->
+        <section id="tab-blood-request" class="page-tab">
+            <div class="page-back-nav">
+                <button type="button" class="btn-back" onclick="navigateBack()" data-i18n="btn_back">← Back to Home</button>
+            </div>
+            <div class="form-card">
+                <div class="form-header">
+                    <div>
+                        <h2 class="form-title" data-i18n="breq_title">Emergency Blood Request</h2>
+                        <p class="form-subtitle">Instantly notify active compatible blood donors near the hospital.</p>
+                    </div>
+                </div>
+
+                <form id="bloodRequestForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="breq_name">
+                                <span data-i18n="breq_patient">Patient Name</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="breq_name" name="patient_name" class="form-control" placeholder="Enter patient name" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="breq_bg">
+                                <span data-i18n="form_blood_group">Blood Group Required</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="breq_bg" name="blood_group" class="form-select" required>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="breq_units">
+                                <span data-i18n="breq_units">Units Required</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="number" id="breq_units" name="units_required" class="form-control" min="1" max="10" placeholder="Enter units required" required />
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="breq_hosp">
+                                <span data-i18n="breq_hospital">Hospital Name</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="breq_hosp" name="hospital_name" class="form-control" data-i18n-placeholder="breq_hospital_placeholder" placeholder="Enter hospital name" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="breq_city">
+                                <span data-i18n="form_city">City / District</span> <span class="req-star">*</span>
+                            </label>
+                            <input type="text" id="breq_city" name="city" class="form-control city-autocomplete" data-i18n-placeholder="form_city_placeholder" placeholder="Enter city / district" autocomplete="off" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="breq_em">
+                                <span data-i18n="rec_emergency_level">Emergency Urgency</span> <span class="req-star">*</span>
+                            </label>
+                            <select id="breq_em" name="emergency_level" class="form-select" required>
+                                <option value="Critical" data-i18n="rec_em_critical">Critical (Immediate ICU / OT Need)</option>
+                                <option value="Urgent" selected data-i18n="rec_em_high">Urgent (Within 4 Hours)</option>
+                                <option value="Normal" data-i18n="rec_em_low">Normal Scheduled Need</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="breq_contact">
+                            <span data-i18n="rec_contact_person">Attender / Doctor Contact Number</span> <span class="req-star">*</span>
+                        </label>
+                        <input type="tel" id="breq_contact" name="contact_number" class="form-control" placeholder="Enter contact number" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:1.5rem;" data-i18n="form_btn_submit_request">
+                        Broadcast Emergency Request & Find Donors
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             TAB 6: UNIFIED SEARCH & AI MATCHING PORTAL (Requirements #6, #9, #10)
+             ========================================================== -->
+        <section id="tab-search-match" class="page-tab">
+            <div class="page-back-nav">
+                <button type="button" class="btn-back" onclick="navigateBack()" data-i18n="btn_back">← Back to Home</button>
+            </div>
+            <div class="search-filter-card">
+                <h2 style="margin-bottom:0.5rem; color:var(--primary);" data-i18n="search_portal_title">AI-Powered Matching & Search Portal</h2>
+                <p style="color:var(--text-muted); margin-bottom:1.5rem;">Intelligent multi-factor scoring matching blood compatibility, HLA vectors, distance, and urgency.</p>
+
+                <!-- Search Tabs -->
+                <div class="tab-nav">
+                    <button class="tab-btn active" id="btnTabSearchOrgan" onclick="switchSearchTab('organ')" data-i18n="search_tab_organ">Organ Donor Search</button>
+                    <button class="tab-btn" id="btnTabSearchBlood" onclick="switchSearchTab('blood')" data-i18n="search_tab_blood">Blood Donor Search</button>
+                </div>
+
+                <!-- Organ Search Filter Form -->
+                <form id="organSearchForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="rec_needed_organ">Organ Needed</label>
+                            <select id="search_organ" class="form-select" required>
+                                <option value="Kidney">Kidney (சிறுநீரகம்)</option>
+                                <option value="Liver">Liver (கல்லீரல்)</option>
+                                <option value="Heart">Heart (இதயம்)</option>
+                                <option value="Lung">Lung (நுரையீரல்)</option>
+                                <option value="Pancreas">Pancreas (கணையம்)</option>
+                                <option value="Eye">Eye / Cornea (கண்)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form_blood_group">Recipient Blood Group</label>
+                            <select id="search_organ_bg" class="form-select">
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form_city">Hospital Location / City</label>
+                            <input type="text" id="search_organ_city" class="form-control city-autocomplete" placeholder="Enter city / district" value="" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="rec_emergency_level">Emergency Urgency</label>
+                            <select id="search_organ_em" class="form-select">
+                                <option value="Critical">Critical</option>
+                                <option value="High" selected>High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;" data-i18n="search_btn">
+                        Find Compatible Donors
+                    </button>
+                </form>
+
+                <!-- Blood Search Filter Form -->
+                <form id="bloodSearchForm" style="display:none;">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form_blood_group">Blood Group Required</label>
+                            <select id="search_blood_bg" class="form-select">
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form_city">City / District</label>
+                            <input type="text" id="search_blood_city" class="form-control city-autocomplete" placeholder="Enter city / district" value="" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="breq_units">Units Required</label>
+                            <input type="number" id="search_blood_units" class="form-control" value="" placeholder="Enter units required" min="1" max="10" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="rec_emergency_level">Urgency Priority</label>
+                            <select id="search_blood_em" class="form-select">
+                                <option value="Critical">Critical</option>
+                                <option value="Urgent" selected>Urgent</option>
+                                <option value="Normal">Normal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-secondary" style="width:100%;" data-i18n="search_btn">
+                        Find Compatible Blood Donors
+                    </button>
+                </form>
+            </div>
+
+            <!-- Matching Results Section -->
+            <div class="results-header">
+                <h3 data-i18n="search_results_title">Matching Results</h3>
+                <div style="font-size:0.85rem; color:var(--text-muted);">
+                    Sorted by: <strong>AI Compatibility Matrix & Proximity</strong>
+                </div>
+            </div>
+
+            <div id="matchResultsContainer" class="results-grid">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             TAB 7: DIGITAL DONOR CARD VIEWER (Requirement #4 & #28)
+             ========================================================== -->
+        <section id="tab-donor-card" class="page-tab">
+            <div class="page-back-nav">
+                <button type="button" class="btn-back" onclick="navigateBack()" data-i18n="btn_back">← Back to Home</button>
+            </div>
+            <div class="card-viewer-wrap">
+                <!-- Registration Success Banner (Requirement #9) -->
+                <div id="donorSuccessBanner" class="success-banner" style="display:none; background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border: 1.5px solid #10B981; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; text-align: center; box-shadow: 0 4px 16px rgba(16, 185, 129, 0.12);">
+                    <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">🎉</div>
+                    <h3 style="color: #065F46; margin: 0 0 0.4rem 0; font-size: 1.25rem; font-weight: 800;">Donor Registration Successful!</h3>
+                    <p id="donorSuccessEmailMsg" style="color: #047857; font-size: 0.95rem; margin: 0 0 0.6rem 0; font-weight: 600;">
+                        Your Donor Card has been sent to your registered email address.
+                    </p>
+                    <div style="display: inline-block; background: white; padding: 0.4rem 1.2rem; border-radius: 8px; border: 1px dashed #059669; font-family: monospace; font-size: 1.05rem; color: #065F46; font-weight: 700;">
+                        Unique Donor ID: <span id="donorSuccessIdBadge" style="color:#DC2626;">ODMS-ORG-2026-XXXX</span>
+                    </div>
+                </div>
+
+                <h2 style="color:var(--primary); margin-bottom:0.5rem;" data-i18n="card_title">Digital Donor Identification Card</h2>
+                <p style="color:var(--text-muted); margin-bottom:1.5rem;" data-i18n="card_desc">
+                    Your official donor card has been generated. You can download the PDF or scan the QR code to verify validity.
+                </p>
+
+                <!-- Visual Card Mockup -->
+                <div class="donor-card-visual" id="donorCardVisual">
+                    <div class="card-vis-header">
+                        <div>
+                            <h3 style="color:white; font-size:1.15rem; margin:0;">ORGAN DONOR CARD</h3>
+                            <small style="color:#A8DADC; font-weight:600;">TAMIL NADU LIFE SAVER REGISTRY</small>
+                        </div>
+                        <span class="bg-pill" style="font-size:1.2rem; padding:0.3rem 0.8rem;" id="cardBloodGroup">O+</span>
+                    </div>
+                    <div class="card-vis-body">
+                        <img id="cardPhoto" src="../static/img/default-avatar.png" onerror="this.onerror=null;this.src='/static/img/default-avatar.png';" class="card-vis-photo" alt="Donor Photo" />
+                        <div>
+                            <h4 id="cardDonorName" style="font-size:1.2rem; color:var(--primary);">Kavitha Ramasamy</h4>
+                            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.35rem;">
+                                ID: <strong id="cardDonorId" style="color:var(--primary);">ODMS-ORG-2026-1001</strong>
+                            </p>
+                            <p style="font-size:0.85rem; color:var(--accent-red); font-weight:700;">
+                                Organs: <span id="cardOrgans">Kidney, Liver, Eye</span>
+                            </p>
+                            <p style="font-size:0.82rem; color:#475569;" id="cardCity">Salem, Tamil Nadu</p>
+                        </div>
+                        <img id="cardQr" src="../static/uploads/qrcodes/qr_ODMS-ORG-2026-1001.png" onerror="this.onerror=null;this.src='/static/uploads/qrcodes/qr_ODMS-ORG-2026-1001.png';" class="card-vis-qr" alt="Verification QR" />
+                    </div>
+                    <div class="card-vis-footer">
+                        <span class="badge badge-approved" id="cardStatus">STATUS: APPROVED</span>
+                        <span id="cardDate">Issued: 02-Sep-2026</span>
+                        <strong style="color:var(--primary);">Helpline: 108 / 104</strong>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;">
+                    <a id="btnDownloadCardPdf" href="#" class="btn btn-primary" target="_blank" data-i18n="card_btn_download">
+                        📄 Download Official Donor Card (PDF)
+                    </a>
+                    <button id="btnResendEmailPdf" class="btn btn-outline-light" style="color:var(--primary); border-color:var(--primary);" data-i18n="card_btn_email">
+                        📧 Resend PDF to Email
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             TAB 8: NOTIFICATIONS DRAWER (Requirement #21)
+             ========================================================== -->
+        <section id="tab-notifications" class="page-tab">
+            <div class="page-back-nav">
+                <button type="button" class="btn-back" onclick="navigateBack()" data-i18n="btn_back">← Back to Home</button>
+            </div>
+            <div style="max-width:800px; margin:0 auto;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                    <h2 style="color:var(--primary);" data-i18n="notif_title">Live Alerts & Notifications</h2>
+                </div>
+                <div id="notificationsList">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             TAB 9: ADMIN SIGNUP & LOGIN WITH 2FA (Requirements #11 & #12)
+             ========================================================== -->
+        <section id="tab-admin-signup" class="page-tab">
+            <div class="page-back-nav">
+                <button type="button" class="btn-back" onclick="showTab('admin-login')" data-i18n="btn_back">← Back to Login</button>
+            </div>
+            <div class="form-card" style="max-width:520px; margin:0 auto;">
+                <div class="form-header" style="text-align:center; display:block;">
+                    <div style="font-size:2.5rem; margin-bottom:0.5rem;">🛡️</div>
+                    <h2 class="form-title">Create Admin Account</h2>
+                    <p class="form-subtitle">Register a verified medical administrator profile.</p>
+                </div>
+
+                <form id="adminSignupForm">
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" for="signup_full_name">Full Name <span class="req-star">*</span></label>
+                        <input type="text" id="signup_full_name" name="full_name" class="form-control" placeholder="Enter full name" required />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" for="signup_email">Admin Email <span class="req-star">*</span></label>
+                        <input type="email" id="signup_email" name="email" class="form-control" placeholder="Enter email address" required />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" for="signup_phone">Mobile Number (10 digits)</label>
+                        <input type="tel" id="signup_phone" name="phone" class="form-control" placeholder="Enter phone number (optional)" maxlength="10" />
+                        <small style="color:var(--text-muted); font-size:0.78rem;">6-digit verification code will be sent to your registered email address.</small>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" for="signup_password">Password (min 8 chars, A-Z, a-z, 0-9) <span class="req-star">*</span></label>
+                        <input type="password" id="signup_password" name="password" class="form-control" placeholder="Enter password" required />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" for="signup_confirm_password">Confirm Password <span class="req-star">*</span></label>
+                        <input type="password" id="signup_confirm_password" name="confirm_password" class="form-control" placeholder="Confirm password" required />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1.5rem;">
+                        <label class="form-label" for="signup_otp">Email OTP Verification <span class="req-star">*</span></label>
+                        <div class="otp-input-group">
+                            <input type="text" id="signup_otp" name="otp_code" class="form-control" placeholder="Enter 6-digit OTP" maxlength="6" autocomplete="one-time-code" disabled required />
+                            <button type="button" id="btnSendSignupOtp" class="btn-otp">Send OTP</button>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-top:0.35rem; font-size:0.78rem; color:var(--text-muted);">
+                            <span id="signupOtpHelper">Fill details and click "Send OTP" to receive code in your email.</span>
+                            <span id="signupOtpTimer" style="display:none; color:#dc2626; font-weight:600;">⏱ 5:00</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btnAdminSignupSubmit" class="btn btn-primary" style="width:100%; margin-bottom:1rem;" disabled>Verify OTP & Create Account</button>
+
+                    <div style="text-align:center;">
+                        <button type="button" class="btn" style="background:none; color:var(--teal); font-size:0.88rem;" onclick="showTab('admin-login')">
+                            Already have an admin account? Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="tab-admin-login" class="page-tab">
+            <div class="page-back-nav">
+                <button type="button" class="btn-back" onclick="navigateBack()" data-i18n="btn_back">← Back to Home</button>
+            </div>
+            <div class="form-card" style="max-width:480px; margin:0 auto;">
+                <div class="form-header" style="text-align:center; display:block;">
+                    <div style="font-size:2.5rem; margin-bottom:0.5rem;">🔐</div>
+                    <h2 class="form-title" data-i18n="admin_login_title">Administrator Portal</h2>
+                    <p class="form-subtitle" data-i18n="admin_login_subtitle">Two-Factor Secure Medical Staff Access</p>
+                </div>
+
+                <form id="adminLoginForm">
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" for="admin_email">
+                            <span data-i18n="admin_email">Admin Email or Username</span> <span class="req-star">*</span>
+                        </label>
+                        <input type="text" id="admin_email" name="email" class="form-control" placeholder="Enter email or username" value="" autocomplete="username" autocapitalize="off" spellcheck="false" required />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" for="admin_pwd">
+                            <span data-i18n="admin_password">Password</span> <span class="req-star">*</span>
+                        </label>
+                        <input type="password" id="admin_pwd" name="password" class="form-control" placeholder="Enter password" value="" autocomplete="current-password" autocapitalize="off" spellcheck="false" required />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1.5rem;">
+                        <label class="form-label" for="admin_login_otp">
+                            <span>Email OTP Verification</span> <span class="req-star">*</span>
+                        </label>
+                        <div class="otp-input-group">
+                            <input type="text" id="admin_login_otp" name="otp_code" class="form-control" placeholder="Enter 6-digit OTP" maxlength="6" value="" autocomplete="one-time-code" disabled required />
+                            <button type="button" id="btnSendAdminLoginOtp" class="btn-otp" data-i18n="form_btn_send_otp">Send OTP</button>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-top:0.35rem; font-size:0.78rem; color:var(--text-muted);">
+                            <span id="adminLoginOtpHolder">Enter email and password, then click "Send OTP" to receive email code.</span>
+                            <span id="adminLoginTimer" style="display:none; color:#dc2626; font-weight:600;">⏱ 5:00</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btnAdminLoginSubmit" class="btn btn-primary" style="width:100%; margin-bottom:1rem;" data-i18n="admin_btn_login" disabled>
+                        Verify OTP & Sign In
+                    </button>
+
+                    <div style="display:flex; justify-content:center; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.5rem;">
+                        <button type="button" class="btn" style="background:none; color:var(--teal); font-size:0.88rem;" onclick="showTab('admin-signup')">
+                            Sign Up
+                        </button>
+                        <button type="button" class="btn" style="background:none; color:var(--teal); font-size:0.88rem;" onclick="window.location.href='/admin/forgot-password'" data-i18n="admin_forgot_btn">
+                            Forgot Password?
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             TAB 10: NEW ADMIN DASHBOARD
+             ========================================================== -->
+        <section id="tab-admin-dash" class="page-tab">
+            <div class="modern-admin-shell">
+                <aside class="modern-admin-sidebar">
+                    <div class="admin-branding">
+                        <div class="admin-brand-mark">♥</div>
+                        <div class="admin-brand-copy">
+                            <small>ODMS</small>
+                            <strong>Admin Portal</strong>
+                        </div>
+                    </div>
+
+                    <nav class="admin-side-nav" aria-label="Admin sidebar navigation">
+                        <a href="/admin" class="admin-side-link active">
+                            <span class="admin-side-icon">▣</span>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="/admin/donors" class="admin-side-link">
+                            <span class="admin-side-icon">❤</span>
+                            <span>Organ Donors</span>
+                        </a>
+                        <a href="/admin/blood-donors" class="admin-side-link">
+                            <span class="admin-side-icon">🩸</span>
+                            <span>Blood Donors</span>
+                        </a>
+                        <a href="/admin/find-organ" class="admin-side-link">
+                            <span class="admin-side-icon">🔎</span>
+                            <span>Find Organ</span>
+                        </a>
+                        <a href="/admin/blood-requests" class="admin-side-link">
+                            <span class="admin-side-icon">🚑</span>
+                            <span>Blood Requests</span>
+                        </a>
+                        <a href="/admin/receivers" class="admin-side-link">
+                            <span class="admin-side-icon">👨‍⚕️</span>
+                            <span>Receivers</span>
+                        </a>
+                        <button type="button" class="admin-side-link admin-side-link--logout" onclick="adminLogout()">
+                            <span class="admin-side-icon">←</span>
+                            <span>Logout</span>
+                        </button>
+                    </nav>
+
+                    <div class="admin-side-footer">
+                        <span class="admin-status-dot"></span>
+                        <span>System Online</span>
+                    </div>
+                </aside>
+
+                <div class="modern-admin-main">
+                    <header class="modern-admin-topbar">
+                        <div class="admin-topbar-title-wrap">
+                            <h1 class="admin-topbar-title">Organ & Blood Donation Management System</h1>
+                            <p class="admin-topbar-subtitle">Official Healthcare Administration Portal</p>
+                        </div>
+
+                        <div class="modern-admin-topbar-tools">
+                            <button type="button" class="modern-logout-btn" onclick="adminLogout()">
+                                <span>←</span> Logout
+                            </button>
+                        </div>
+                    </header>
+
+                    <main class="modern-admin-content">
+                        <section class="modern-stat-grid" id="modernStatGrid">
+                            <a href="/admin/donors" class="modern-stat-card stat-card-primary" title="Open Organ Donors">
+                                <div class="stat-card-icon">❤</div>
+                                <div class="stat-card-info">
+                                    <small>Total Organ Donors</small>
+                                    <h3 id="statTotalOrganDonors">0</h3>
+                                    <span class="stat-card-action">View Details &rarr;</span>
+                                </div>
+                            </a>
+                            <a href="/admin/blood-donors" class="modern-stat-card stat-card-blue" title="Open Blood Donors">
+                                <div class="stat-card-icon">🩸</div>
+                                <div class="stat-card-info">
+                                    <small>Total Blood Donors</small>
+                                    <h3 id="statTotalBloodDonors">0</h3>
+                                    <span class="stat-card-action">View Details &rarr;</span>
+                                </div>
+                            </a>
+                            <a href="/admin/receivers" class="modern-stat-card stat-card-teal" title="Open Receivers">
+                                <div class="stat-card-icon">👥</div>
+                                <div class="stat-card-info">
+                                    <small>Total Receivers</small>
+                                    <h3 id="statTotalReceivers">0</h3>
+                                    <span class="stat-card-action">View Details &rarr;</span>
+                                </div>
+                            </a>
+                            <a href="/admin/find-organ" class="modern-stat-card stat-card-orange" title="Open Organ Requests">
+                                <div class="stat-card-icon">🫀</div>
+                                <div class="stat-card-info">
+                                    <small>Total Organ Requests</small>
+                                    <h3 id="statTotalOrganRequests">0</h3>
+                                    <span class="stat-card-action">View Details &rarr;</span>
+                                </div>
+                            </a>
+                            <a href="/admin/blood-requests" class="modern-stat-card stat-card-purple" title="Open Blood Requests">
+                                <div class="stat-card-icon">🚑</div>
+                                <div class="stat-card-info">
+                                    <small>Total Blood Requests</small>
+                                    <h3 id="statTotalBloodRequests">0</h3>
+                                    <span class="stat-card-action">View Details &rarr;</span>
+                                </div>
+                            </a>
+                            <a href="/admin/records?status=Pending" class="modern-stat-card stat-card-warn" title="Open Pending Approvals">
+                                <div class="stat-card-icon">⏳</div>
+                                <div class="stat-card-info">
+                                    <small>Pending Approvals</small>
+                                    <h3 id="statPendingApprovals">0</h3>
+                                    <span class="stat-card-action">View Details &rarr;</span>
+                                </div>
+                            </a>
+                            <a href="/admin/records?status=Approved" class="modern-stat-card stat-card-success" title="Open Approved Records">
+                                <div class="stat-card-icon">✓</div>
+                                <div class="stat-card-info">
+                                    <small>Approved Records</small>
+                                    <h3 id="statApprovedRecords">0</h3>
+                                    <span class="stat-card-action">View Details &rarr;</span>
+                                </div>
+                            </a>
+                            <a href="/admin/records?status=Rejected" class="modern-stat-card stat-card-danger" title="Open Rejected Records">
+                                <div class="stat-card-icon">✕</div>
+                                <div class="stat-card-info">
+                                    <small>Rejected Records</small>
+                                    <h3 id="statRejectedRecords">0</h3>
+                                    <span class="stat-card-action">View Details &rarr;</span>
+                                </div>
+                            </a>
+                        </section>
+                    </main>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================================
+         FOOTER
+         ========================================================== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <p style="margin:0; color:#fff;">© 2026 Organ & Blood Donation Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================
+         MODALS & TOAST NOTIFICATION CONTAINER
+         ========================================================== -->
+    <!-- AI Score Breakdown Modal -->
+    <div id="detailModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 style="color:var(--primary); margin:0;">AI Match Analysis</h3>
+                <button class="btn-close" onclick="document.getElementById('detailModal').classList.remove('active')">&times;</button>
+            </div>
+            <div class="modal-body" id="modalDetailContent">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Record Detail Modal -->
+    <div id="recordDetailModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 style="color:var(--primary); margin:0;">Record Details</h3>
+                <button class="btn-close" onclick="document.getElementById('recordDetailModal').classList.remove('active')">&times;</button>
+            </div>
+            <div class="modal-body" id="recordDetailContent">
+                <!-- Loaded dynamically by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal (Requirement #12) -->
+    <div id="forgotModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 style="color:var(--primary); margin:0;" data-i18n="admin_forgot_title">Reset Admin Password</h3>
+                <button type="button" class="btn-close" onclick="closeForgotModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="forgotPasswordForm">
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" data-i18n="admin_email">Admin Email</label>
+                        <div class="otp-input-group">
+                            <input type="email" id="forgot_email" name="email" class="form-control" value="" placeholder="Enter email address" autocomplete="off" required />
+                            <button type="button" id="btnSendForgotOtp" class="btn-otp" data-i18n="form_btn_send_otp">Send OTP</button>
+                        </div>
+                        <small id="forgotOtpHolder" style="color:var(--text-muted); font-size:0.75rem;">
+                            Enter your registered admin email and click "Send OTP" to receive a secure verification code.
+                        </small>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" data-i18n="admin_otp_label">OTP Verification Code</label>
+                        <input type="text" id="forgot_otp_code" name="otp_code" class="form-control" placeholder="Enter 6-digit OTP" maxlength="6" autocomplete="one-time-code" required />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label" data-i18n="admin_new_password">New Password</label>
+                        <input type="password" id="forgot_new_password" name="new_password" class="form-control" placeholder="Enter new password" required />
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1.5rem;">
+                        <label class="form-label" data-i18n="admin_confirm_password">Confirm New Password</label>
+                        <input type="password" id="forgot_confirm_password" name="confirm_password" class="form-control" placeholder="Confirm new password" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%;" data-i18n="admin_btn_reset">
+                        Verify OTP & Reset Password
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Alerts Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="../static/js/i18n.js?v=2026_fixed" onerror="this.onerror=null;this.src='/static/js/i18n.js?v=2026_fixed';"></script>
+    <script src="../static/js/app.js?v=2026_fixed" onerror="this.onerror=null;this.src='/static/js/app.js?v=2026_fixed';"></script>
+    <script>
+        function switchSearchTab(type) {
+            const organForm = document.getElementById("organSearchForm");
+            const bloodForm = document.getElementById("bloodSearchForm");
+            const btnOrgan = document.getElementById("btnTabSearchOrgan");
+            const btnBlood = document.getElementById("btnTabSearchBlood");
+
+            if (type === "organ") {
+                organForm.style.display = "block";
+                bloodForm.style.display = "none";
+                btnOrgan.classList.add("active");
+                btnBlood.classList.remove("active");
+                // Trigger default search
+                performOrganSearch(document.getElementById("search_organ").value, document.getElementById("search_organ_bg").value, document.getElementById("search_organ_city").value, document.getElementById("search_organ_em").value);
+            } else {
+                organForm.style.display = "none";
+                bloodForm.style.display = "block";
+                btnOrgan.classList.remove("active");
+                btnBlood.classList.add("active");
+                // Trigger default search
+                performBloodSearch(document.getElementById("search_blood_bg").value, document.getElementById("search_blood_city").value, document.getElementById("search_blood_units").value, document.getElementById("search_blood_em").value);
+            }
+        }
+
+        function switchAdminSubTab(tabName) {
+            const tabs = ["donors", "receivers", "blood_donors", "blood_reqs"];
+            const btnMap = {
+                "donors": "btnAdminDonors",
+                "receivers": "btnAdminReceivers",
+                "blood_donors": "btnAdminBloodDonors",
+                "blood_reqs": "btnAdminBloodReqs"
+            };
+            const contentMap = {
+                "donors": "adminDonorsTabContent",
+                "receivers": "adminReceiversTabContent",
+                "blood_donors": "adminBloodDonorsTabContent",
+                "blood_reqs": "adminBloodReqsTabContent"
+            };
+
+            tabs.forEach(t => {
+                const btn = document.getElementById(btnMap[t]);
+                const content = document.getElementById(contentMap[t]);
+                if (t === tabName) {
+                    btn.classList.add("active");
+                    content.style.display = "block";
+                } else {
+                    btn.classList.remove("active");
+                    content.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
